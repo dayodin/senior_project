@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "./config";
 import axios from 'axios';
 
 const AddAuthorForm = () => {
@@ -15,15 +16,19 @@ const AddAuthorForm = () => {
     };
 
     const handleSumbit = async (e) => {
-        e.preventDefault()
-        try {
-            const result = await axios.post("http://localhost:8800/authors", author)
-            // const result = await axios.get("http://localhost:8800/")
-            navigate('/')
-            console.log(result)
-        } catch(err) {
-            console.log(err)
-        }
+        let results = await fetch(`${baseUrl}/posts/latest`).then(resp => resp.json());
+        console.log(results)
+        // let results = await fetch(`${baseUrl}/posts/hello`).then(resp => resp.json());
+        // console.log(results)
+        // e.preventDefault()
+        // try {
+        //     // const result = await axios.post("http://localhost:8800/authors", author)
+        //     const result = await axios.get("http://localhost:8800/hello")
+        //     navigate('/')
+        //     console.log(result)
+        // } catch(err) {
+        //     console.log(err)
+        // }
     }
 
     return (
