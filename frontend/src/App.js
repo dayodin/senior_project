@@ -1,21 +1,37 @@
 import axios from 'axios';
+import AddBookForm from './AddBookForm';
+import AddAuthorForm from './AddAuthorForm';
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom'
 
-const apiCall = () => {
-  axios.get('http://localhost:8800').then((data) => {
-    //this console.log will be in our frontend console
-    console.log(data)
-  })
-}
+// const apiCall = () => {
+//   axios.get('http://localhost:8800').then((data) => {
+//     //this console.log will be in our frontend console
+//     console.log(data)
+//   })
+// }
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={apiCall}>Make API Call</button>
-      </header>
-    </div>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<AddAuthorForm/>}/>
+            {/* <Route path='/products' element={<Product/>}/>
+            <Route path='/guilds' element={<Guild/>}/>
+            <Route path='/addGuild' element={<AddGuild/>}/> */}
+          </Routes>
+        </BrowserRouter>
+          {/* <h1>Add a New Author</h1>
+          <AddAuthorForm />
+          <h1>Add a New Book</h1>
+          <AddBookForm /> */}
+      </div>
   );
-}
+};
 
 export default App;
