@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { TextInput } from 'evergreen-ui'
 import { baseUrl } from "./config";
-import axios from 'axios';
 
 const AddAuthorForm = () => {
     const [author, setAuthor] = useState({
@@ -9,35 +8,49 @@ const AddAuthorForm = () => {
         l_name: ""
     });
 
-    const navigate = useNavigate();
-
     const handleChange = (e) => {
         setAuthor(prev=>({...prev, [e.target.name]: e.target.value}));
     };
 
-    const handleSumbit = async (e) => {
-        let results = await fetch(`${baseUrl}/posts/latest`).then(resp => resp.json());
-        console.log(results)
-        // let results = await fetch(`${baseUrl}/posts/hello`).then(resp => resp.json());
-        // console.log(results)
-        // e.preventDefault()
-        // try {
-        //     // const result = await axios.post("http://localhost:8800/authors", author)
-        //     const result = await axios.get("http://localhost:8800/hello")
-        //     navigate('/')
-        //     console.log(result)
-        // } catch(err) {
-        //     console.log(err)
-        // }
-    }
+    const handleSubmit = async () => {
+        const first = author.f_name;
+        const last = author.l_name;
+        await fetch(`${baseUrl}/authors`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({
+            first, last 
+          })
+          
+        }).then(resp => resp.json());
+        setAuthor({f_name: "", l_name: ""});
+      }
 
     return (
-        <div className="form">
-            <h1>Add New Author</h1>
-            <input type="text" placeholder="First Name" onChange={handleChange} name="f_name"/>
-            <input type="text" placeholder="Last Name" onChange={handleChange} name="l_name"/>
-            <button onClick={handleSumbit}>Add</button>
-        </div>
+        <React.Fragment>
+            <div className="form">
+                <h1>Add New Author</h1>
+                <form>
+                    <TextInput
+                        label="First Name" 
+                        // description="Enter your name"
+                        onChange={handleChange}
+                        name = 'f_name'
+                        value={author.f_name}
+                    />
+                    <TextInput
+                        label="Last Name" 
+                        // description="Enter the title for this blog post"
+                        onChange={handleChange}
+                        name = 'l_name'
+                        value={author.l_name}
+                    />
+                </form>
+                <button onClick={handleSubmit}>Add</button>
+            </div>
+        </React.Fragment>
     );
 };
 
