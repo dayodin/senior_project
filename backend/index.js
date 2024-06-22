@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import "./loadEnviornment.js";
 import "express-async-errors";
-import authors from "./routes/authors.js";
+import authors from "./routes/mongo/authors.js";
 
 const PORT = process.env.PORT || 5050;
 const app = express();
