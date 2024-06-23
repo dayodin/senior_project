@@ -6,10 +6,10 @@ const ebayAuthToken = new EbayAuthToken({
     redirectUri: 'Karsten_Dinsmor-KarstenD-mb-PRD-dqvpnq'
 });
 
-(async () => {
-    const token = await ebayAuthToken.getApplicationToken('PRODUCTION');
-    console.log(token);
-})();
+let token = await ebayAuthToken.getApplicationToken('PRODUCTION');
+token = token.split(":")[1].split(",")[0];
+
+// console.log(token)
 
 export default token;
 

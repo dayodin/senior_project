@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput } from 'evergreen-ui'
 import { baseUrl } from "./config";
+import GetManga from './eBay/getManga';
 
 const AddAuthorForm = () => {
     const [author, setAuthor] = useState({
@@ -26,7 +27,7 @@ const AddAuthorForm = () => {
           
         }).then(resp => resp.json());
         setAuthor({f_name: "", l_name: ""});
-      }
+    }
 
     return (
         <React.Fragment>
@@ -50,6 +51,7 @@ const AddAuthorForm = () => {
                 </form>
                 <button onClick={handleSubmit}>Add</button>
             </div>
+            <GetManga />
         </React.Fragment>
     );
 };
