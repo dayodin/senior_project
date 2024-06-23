@@ -3,6 +3,7 @@ import cors from "cors";
 import "./loadEnviornment.js";
 import "express-async-errors";
 import authors from "./routes/mongo/authors.js";
+import manga from "./routes/ebay/manga.js"
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // Load the /posts routes
 app.use("/authors", authors);
+app.use("/manga", manga)
 
 // Global error handling
 app.use((err, _req, res, next) => {
