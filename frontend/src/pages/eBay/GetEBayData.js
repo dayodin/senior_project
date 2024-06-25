@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { baseUrl } from '../config';
+import React from 'react';
+import { baseUrl } from '../../config';
 
 const GetManga = () => {
 
     const handleSubmit = async () => {
         try {
-            let response = await fetch(`${baseUrl}/manga`, {
+            let response = await fetch(`${baseUrl}/getManga`, {
                 method: "GET",
             })
             response = await response.json();

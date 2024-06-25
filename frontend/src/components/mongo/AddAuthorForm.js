@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { TextInput } from 'evergreen-ui'
-import { baseUrl } from "./config";
-import GetManga from './eBay/getManga';
+import { baseUrl } from "../../config.js";
 
-const AddAuthorForm = () => {
+const AddAuthorForm = (props) => {
     const [author, setAuthor] = useState({
         f_name: "",
         l_name: ""
@@ -27,6 +26,7 @@ const AddAuthorForm = () => {
           
         }).then(resp => resp.json());
         setAuthor({f_name: "", l_name: ""});
+        props.onAddAuthor();
     }
 
     return (
@@ -35,15 +35,13 @@ const AddAuthorForm = () => {
                 <h1>Add New Author</h1>
                 <form>
                     <TextInput
-                        label="First Name" 
-                        // description="Enter your name"
+                        label="First Name"
                         onChange={handleChange}
                         name = 'f_name'
                         value={author.f_name}
                     />
                     <TextInput
                         label="Last Name" 
-                        // description="Enter the title for this blog post"
                         onChange={handleChange}
                         name = 'l_name'
                         value={author.l_name}
@@ -51,7 +49,6 @@ const AddAuthorForm = () => {
                 </form>
                 <button onClick={handleSubmit}>Add</button>
             </div>
-            <GetManga />
         </React.Fragment>
     );
 };
