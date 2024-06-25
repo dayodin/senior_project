@@ -1,4 +1,4 @@
-import AddAuthorForm from './AddAuthorForm';
+import AddMangaForm from './pages/mongo/AddMangaForm'
 import './App.css';
 import {
   BrowserRouter,
@@ -11,7 +11,7 @@ const App = () => {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<AddAuthorForm/>}/>
+            <Route path='/manga' element={<AddMangaForm/>}/>
           </Routes>
         </BrowserRouter>
       </div>
