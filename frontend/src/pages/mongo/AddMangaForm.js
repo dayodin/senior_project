@@ -5,7 +5,7 @@ import AuthorSelect from '../../components/mongo/AuthorSelect';
 import SeriesSelect from '../../components/mongo/SeriesSelect';
 import { baseUrl } from '../../config';
 
-const AddBookForm = () => {
+const AddBookForm = (props) => {
     const [book, setBook] = useState({
         series_id: '',
         author_id: '',
@@ -16,6 +16,7 @@ const AddBookForm = () => {
     const handleChange = (e) => {
         setBook(prev=>({...prev, [e.target.name]: e.target.value}));
     };
+
 
     const handleSubmit = async () => {
         const series_id = book.series_id;
@@ -34,6 +35,9 @@ const AddBookForm = () => {
           
         }).then(resp => resp.json());
         setBook({series_id: "", author_id: "", volume: "", volume_price: ""});
+        
+        window.location.reload();
+        // props.navigate("/manga")
     }
 
     const printE = (e) => {

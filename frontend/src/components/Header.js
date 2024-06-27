@@ -36,6 +36,11 @@ export default function Header() {
                     </Button> */}
                     <NavLink to='/manga' >
                         <Button  sx={{ m: 1, minWidth: 60 }} variant='contained'>
+                            Manga
+                        </Button>
+                    </NavLink>
+                    <NavLink to='manga/add' >
+                        <Button  sx={{ m: 1, minWidth: 60 }} variant='contained'>
                             Add Manga
                         </Button>
                     </NavLink>

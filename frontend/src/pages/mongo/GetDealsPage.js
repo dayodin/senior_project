@@ -7,8 +7,6 @@ const GetDealsPage = () => {
     const [manga, setManga] = useState([]);
     const [series, setSeries] = useState([]);
     const [authors, setAuthors] = useState([]);
-    const [result, setResult] = useState(undefined);
-    const [mm, setPrice] = useState([])
 
     useEffect(() => {
         const fetchAll = () => {
@@ -19,13 +17,34 @@ const GetDealsPage = () => {
         fetchAll();
     }, []);
 
-    const findDeals = async (results, book) => {
+    const findDeals = async (results, book, series_name) => {
         console.log("+++++++++++++");
+        console.log("Series: " + series_name)
         console.log("Volume: " + book.volume);
         console.log("Price: " + book.price);
+        console.log(results);
         if (results !== undefined){
-            // results = results.filter(hit => hit.price.value === book.price)
-            // console.log(results);
+            results = results.map(hit => {
+                let shipping = 6;
+                if (hit.shippingOptions !== undefined) {
+                    if (hit.shippingOptions[0].shippingCostType === "FIXED"){
+                        shipping = parseFloat(hit.shippingOptions[0].shippingCost.value);
+                        // console.log((parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2))
+                    } 
+                }
+                const total = (parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2)
+                return {
+                    series: series_name,
+                    volume: book.volume,
+                    price: hit.price.value,
+                    shipping: shipping,
+                    total: total,
+                    url: hit.itemWebUrl,
+                    item: hit
+                }
+            })
+            results = results.filter(hit => hit.total - book.price < 0)
+            console.log(results);
         }
     }
 
@@ -50,10 +69,9 @@ const GetDealsPage = () => {
                         series_name, author_name, volume, price
                     }),
                 })
-                setPrice(book);
                 response = await response.json();
                 // console.log(response);
-                await findDeals(response.itemSummaries, book);
+                await findDeals(response.itemSummaries, book, series_name);
             } catch (error) {
                 console.log(error);
             }
@@ -64,7 +82,7 @@ const GetDealsPage = () => {
 
     return (
         <React.Fragment>
-            <GetManga />
+            {/* <GetManga /> */}
             <Button sx={{ m: 3, minWidth: 60 }} variant="outlined" onClick={handleSubmit}>Get Deals</Button>
         </React.Fragment>
     );
