@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, FormControl } from '@mui/material';
 import SeriesDropDown from './SeriesDropDown.js';
 import AddSeriesForm from './AddSeriesForm';
 
@@ -15,9 +16,11 @@ const SeriesSelect = (props) => {
 
     return (
         <React.Fragment>
-            <SeriesDropDown book={props.book} setId={props.setId} refresh={refresh} />
-            <button onClick={onClickAddSeries}>Add Series</button>
-            { showAddSeries ? <AddSeriesForm onAddSeries={onAddSeries} /> : null } 
+            <FormControl>
+                <SeriesDropDown book={props.book} setId={props.setId} refresh={refresh} />
+                <Button sx={{ m: 1, minWidth: 240 }} variant="outlined" onClick={onClickAddSeries}>Add Series</Button>
+                { showAddSeries ? <AddSeriesForm onAddSeries={onAddSeries} /> : null } 
+            </FormControl>
         </React.Fragment>
     );
 };

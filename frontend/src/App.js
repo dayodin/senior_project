@@ -1,17 +1,24 @@
-import AddMangaForm from './pages/mongo/AddMangaForm'
+import AddMangaForm from './pages/mongo/AddMangaForm';
+import GetDealsPage from './pages/mongo/GetDealsPage';
+import ListMangaPage from './pages/mongo/ListMangaPage';
+import Header from './components/Header'
 import './App.css';
 import {
   BrowserRouter,
   Routes,
-  Route,
+  Route
 } from 'react-router-dom'
 
-const App = () => {
+
+function App() {
   return (
       <div>
         <BrowserRouter>
+          <Header />
           <Routes>
-            <Route path='/manga' element={<AddMangaForm/>}/>
+            <Route path='/manga' load={"load"} element={<ListMangaPage />} />
+            <Route path='/manga/add' element={<AddMangaForm />} />
+            <Route path='/deals' element={<GetDealsPage />} />
           </Routes>
         </BrowserRouter>
       </div>

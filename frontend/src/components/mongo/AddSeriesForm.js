@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { TextField, Button } from '@mui/material';
+import { FormControl, FormLabel } from '@mui/material';
 import { TextInput } from 'evergreen-ui'
 import { baseUrl } from '../../config';
 
@@ -29,18 +31,10 @@ const AddSeriesForm = (props) => {
 
     return (
         <React.Fragment>
-            <div className="form">
-                <h1>Add New Series</h1>
-                <form>
-                    <TextInput
-                        label="Series Name"
-                        onChange={handleChange}
-                        name = 'name'
-                        value={series.name}
-                    />
-                </form>
-                <button onClick={handleSubmit}>Add</button>
-            </div>
+            <FormControl sx={{ m: 1, minWidth: 240 }}>
+                <TextField sx={{ m: .25 }} label='Series Name' name='name' onChange={handleChange}></TextField>
+                <Button sx={{ m: .25 }} variant="contained"onClick={handleSubmit}>Add</Button>
+            </FormControl>
         </React.Fragment>
     );
 };

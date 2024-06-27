@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Add a new document to the collection
-router.post("/", async (req, res) => {
+router.post("/", async (req, res) => { 
   let collection = db.collection("authors");
   let newDocument = req.body;
 //   newDocument.date = new Date();
