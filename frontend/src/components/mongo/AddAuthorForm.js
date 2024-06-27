@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextInput } from 'evergreen-ui'
+import { TextField, Button } from '@mui/material';
+import { FormControl, FormLabel } from '@mui/material';
 import { baseUrl } from "../../config.js";
 
 const AddAuthorForm = (props) => {
@@ -31,24 +32,11 @@ const AddAuthorForm = (props) => {
 
     return (
         <React.Fragment>
-            <div className="form">
-                <h1>Add New Author</h1>
-                <form>
-                    <TextInput
-                        label="First Name"
-                        onChange={handleChange}
-                        name = 'f_name'
-                        value={author.f_name}
-                    />
-                    <TextInput
-                        label="Last Name" 
-                        onChange={handleChange}
-                        name = 'l_name'
-                        value={author.l_name}
-                    />
-                </form>
-                <button onClick={handleSubmit}>Add</button>
-            </div>
+            <FormControl sx={{ m: 1, minWidth: 240 }}>
+                <TextField sx={{ m: .25 }} label="First Name" name='f_name' onChange={handleChange}></TextField>
+                <TextField sx={{ m: .25 }} label="Last Name" name='l_name' onChange={handleChange}></TextField>
+                <Button sx={{ m: .25 }} variant="contained" onClick={handleSubmit}>Add</Button>
+            </FormControl>
         </React.Fragment>
     );
 };

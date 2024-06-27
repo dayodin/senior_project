@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     let collection = db.collection("series");
+    console.log(req.body);
     let newDocument = req.body;
     let result = await collection.insertOne(newDocument);
     res.send(result).status(204);

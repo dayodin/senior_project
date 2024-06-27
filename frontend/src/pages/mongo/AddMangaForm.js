@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { TextInput } from 'evergreen-ui'
+import React, { useState, useEffect } from 'react';
+import { TextField, Button } from '@mui/material';
+import { FormControl, FormLabel } from '@mui/material';
 import AuthorSelect from '../../components/mongo/AuthorSelect';
 import SeriesSelect from '../../components/mongo/SeriesSelect';
 import { baseUrl } from '../../config';
@@ -35,30 +36,30 @@ const AddBookForm = () => {
         setBook({series_id: "", author_id: "", volume: "", volume_price: ""});
     }
 
+    const printE = (e) => {
+        console.log(e.target.name);
+    }
+
     return (
         <React.Fragment>
-            <AuthorSelect book={book} setId={setBook} />
-            <SeriesSelect book={book} setId={setBook} />
-            <div className="form">
-                <form>
-                    <h4>Volume</h4>
-                    <TextInput
-                        label="Volume" 
-                        description="Enter volume"
-                        onChange={handleChange}
-                        name = 'volume'
-                        value={book.volume}
-                    />
-                    <h4>Price</h4>
-                    <TextInput
-                        label="Price" 
-                        description="Enter price"
-                        onChange={handleChange}
-                        name = 'volume_price'
-                        value={book.volume_price}
-                    />
-                </form>
-                <button onClick={handleSubmit}>Add</button>
+            <FormControl>
+                <SeriesSelect book={book} setId={setBook} />
+                <AuthorSelect book={book} setId={setBook} />
+                <TextField 
+                    sx={{ m: 1, minWidth: 240 }} 
+                    label="Volume" 
+                    name='volume' 
+                    onChange={handleChange} 
+                />
+                <TextField 
+                    sx={{ m: 1, minWidth: 240 }} 
+                    label="Price" 
+                    name='volume_price' 
+                    onChange={handleChange} 
+                />
+            </FormControl>
+            <div>
+                <Button sx={{ m: 1, minWidth: 60 }} variant="contained" onClick={handleSubmit}>Submit</Button>
             </div>
         </React.Fragment>
     );
