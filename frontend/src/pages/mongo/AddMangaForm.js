@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Button } from '@mui/material';
-import { FormControl, FormLabel } from '@mui/material';
-// import AuthorSelect from '../../components/mongo/AuthorSelect';
-import SeriesSelect from '../../components/series_select/SeriesSelect';
-import { baseUrl } from '../../config';
+import React, { useState } from 'react';
+import { TextField, Button, FormControl } from '@mui/material';
+import { AddMangaContext } from '../../context/AddMangaContext';
+import ElementSelect from '../../components/ElementSelect';
+import SeriesDropDown from '../../components/series_select/SeriesDropDown';
+import AddSeriesForm from '../../components/series_select/AddSeriesForm';
+import postData from '../../helpers/postData';
 
 const AddBookForm = (props) => {
     const [book, setBook] = useState({
@@ -23,28 +24,19 @@ const AddBookForm = (props) => {
         const volume = book.volume;
         const price = book.volume_price;
 
-        console.log(book);
+        const body = { series_id, author_id, volume, price }
 
-        await fetch(`${baseUrl}/manga`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify({
-            series_id, author_id, volume, price 
-          })
-          
-        }).then(resp => resp.json());
+        postData('manga', body);
+
         setBook({series_id: "", author_id: "", volume: "", volume_price: ""});
         
         window.location.reload();
     }
 
     return (
-        <React.Fragment>
+        <AddMangaContext.Provider value={{book: book, setBook: setBook}}>
             <FormControl>
-                <SeriesSelect book={book} setId={setBook} />
-                {/* <AuthorSelect book={book} setId={setBook} /> */}
+                <ElementSelect DropDown={SeriesDropDown} AddForm={AddSeriesForm} addText={"Add Series"} />
                 <TextField 
                     sx={{ m: 1, minWidth: 240 }} 
                     label="Volume" 
@@ -61,7 +53,7 @@ const AddBookForm = (props) => {
             <div>
                 <Button sx={{ m: 1, minWidth: 60 }} variant="contained" onClick={handleSubmit}>Submit</Button>
             </div>
-        </React.Fragment>
+        </AddMangaContext.Provider>
     );
 };
 

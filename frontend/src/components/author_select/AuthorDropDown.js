@@ -1,56 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import fetchData from '../../helpers/fetchData';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { baseUrl } from "../../config";
+import { AddSeriesContext } from '../../context/AddSeriesContext';
 
 const AuthorDropDown = (props) => {
-    const [author_name, setAuthorName] = useState([]);
-    const [authors, setAuthors] = useState([]);
+    const [collection, setCollection] = useState([]);
+    const [selectedName, setSelectedName] = useState([]);
+
+    const context = useContext(AddSeriesContext);
 
     const handleChange = (e) => {
         const {
             target: { value },
         } = e;
+        
         const name = value.first + " " + value.last;
-        const id = { "author_id": value._id};
-        props.setId({ ...props.book, ...id });
-        setAuthorName([name]);
-        // setBook(prev=>({...prev, [e.target.name]: e.target.value}));
+        const author_id = { "author_id": value._id};
+        context.setSeries({ ...context.series, ...author_id });
+
+        setSelectedName([name]);
     };
 
     useEffect(() => {
-        const fetchAllAuthors = async () => {
-            try {
-                await fetch(`${baseUrl}/authors`, {
-                    method: "GET", 
-                }).then(async resp => {
-                    const auths = await resp.json();
-                    setAuthors(auths)});
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        fetchAllAuthors();
+        fetchData('authors', setCollection);
     }, [props.refresh]);
 
     return (
-        <React.Fragment>
-            <FormControl sx={{ m: 1, minWidth: 240 }}>
-                <InputLabel htmlFor="grouped-select">Author</InputLabel>
-                <Select
-                    defaultValue = ""
-                    id="author-select"
-                    value={author_name}
-                    onChange={handleChange}
-                    renderValue={(selected) => selected}
-                    >
-                    {authors.map(auth => (
-                        <MenuItem value={auth} key={auth._id}>{auth.first} {auth.last}</MenuItem>))}
-                </Select>
-            </FormControl>
-        </React.Fragment>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+            <InputLabel>Author</InputLabel>
+            <Select
+                defaultValue = ""
+                value={selectedName}
+                onChange={handleChange}
+                renderValue={(selected) => selected}
+                >
+                {collection.map(item => (
+                    <MenuItem value={item} key={item._id}>{item.first} {item.last}</MenuItem>))}
+            </Select>
+        </FormControl>
     );
 };
 

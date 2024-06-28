@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import GetManga from '../eBay/GetEBayData';
 import { Button } from '@mui/material';
+import fetchData from '../../helpers/fetchData';
 import { baseUrl } from '../../config';
 
 const GetDealsPage = () => {
@@ -30,7 +30,6 @@ const GetDealsPage = () => {
                 if (hit.shippingOptions !== undefined) {
                     if (hit.shippingOptions[0].shippingCostType === "FIXED"){
                         shipping = parseFloat(hit.shippingOptions[0].shippingCost.value);
-                        // console.log((parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2))
                     } 
                 }
                 const total = (parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2)
@@ -83,21 +82,9 @@ const GetDealsPage = () => {
 
     return (
         <React.Fragment>
-            {/* <GetManga /> */}
             <Button sx={{ m: 3, minWidth: 60 }} variant="outlined" onClick={handleSubmit}>Get Deals</Button>
         </React.Fragment>
     );
-}
-
-const fetchData = async (dest, setFunc) => {
-    try {
-        await fetch(`${baseUrl}/` + `${dest}`, {
-            method: "GET",
-        }).then(async resp => {
-            setFunc(await resp.json())});
-    } catch (err) {
-        console.log(err);
-    }
 }
 
 export default GetDealsPage;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
-import { FormControl, FormLabel } from '@mui/material';
-import { baseUrl } from "../../config.js";
+import postData from '../../helpers/postData';
+import { TextField, Button, FormControl } from '@mui/material';
 
 const AddAuthorForm = (props) => {
     const [author, setAuthor] = useState({
@@ -16,27 +15,21 @@ const AddAuthorForm = (props) => {
     const handleSubmit = async () => {
         const first = author.f_name;
         const last = author.l_name;
-        await fetch(`${baseUrl}/authors`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify({
-            first, last 
-          })
-        }).then(resp => resp.json());
+        const body = { first, last };
+
+        postData('authors', body);
+
         setAuthor({f_name: "", l_name: ""});
-        props.onAddAuthor();
+        
+        props.handleOpen();
     }
 
     return (
-        <React.Fragment>
-            <FormControl sx={{ m: 1, minWidth: 240 }}>
-                <TextField sx={{ m: .25 }} label="First Name" name='f_name' onChange={handleChange}></TextField>
-                <TextField sx={{ m: .25 }} label="Last Name" name='l_name' onChange={handleChange}></TextField>
-                <Button sx={{ m: .25 }} variant="contained" onClick={handleSubmit}>Add</Button>
-            </FormControl>
-        </React.Fragment>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+            <TextField sx={{ m: .25 }} label="First Name" name='f_name' onChange={handleChange}></TextField>
+            <TextField sx={{ m: .25 }} label="Last Name" name='l_name' onChange={handleChange}></TextField>
+            <Button sx={{ m: .25 }} variant="contained" onClick={handleSubmit}>Add</Button>
+        </FormControl>
     );
 };
 
