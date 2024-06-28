@@ -17,6 +17,7 @@ const AuthorDropDown = (props) => {
         const id = { "author_id": value._id};
         props.setId({ ...props.book, ...id });
         setAuthorName([name]);
+        // setBook(prev=>({...prev, [e.target.name]: e.target.value}));
     };
 
     useEffect(() => {
@@ -26,8 +27,6 @@ const AuthorDropDown = (props) => {
                     method: "GET", 
                 }).then(async resp => {
                     const auths = await resp.json();
-                    let i = 0;
-                    auths.forEach((element) => {element.index = i; i++;});
                     setAuthors(auths)});
             } catch (err) {
                 console.log(err);
@@ -42,15 +41,13 @@ const AuthorDropDown = (props) => {
                 <InputLabel htmlFor="grouped-select">Author</InputLabel>
                 <Select
                     defaultValue = ""
-                    labelId="author-select-lable"
                     id="author-select"
                     value={author_name}
-                    label="Author"
                     onChange={handleChange}
                     renderValue={(selected) => selected}
                     >
                     {authors.map(auth => (
-                        <MenuItem value={auth} key={auth.index}>{auth.first} {auth.last}</MenuItem>))}
+                        <MenuItem value={auth} key={auth._id}>{auth.first} {auth.last}</MenuItem>))}
                 </Select>
             </FormControl>
         </React.Fragment>

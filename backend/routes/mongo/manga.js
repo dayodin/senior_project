@@ -9,29 +9,6 @@ router.get("/", async (req, res) => {
   let results = await collection.find({})
     .limit(50)
     .toArray();
-  
-  let seriesId = results.series_id;
-  // let result = await results.find(ObjectId(seriesId));
-  // console.log(result);
-  // console.log(await findSeriesById(seriesId));
-  // console.log(results);
-  // results = results.forEach((book) => {
-  //   let author_id = book[author_id];
-  //   let series_id = book[series_id];
-  //   console.log(author_id)
-  //   book[author_id] = findAuthorById(author_id);
-  //   book[series_id] = findSeriesById(series_id);
-  // })
-  // collection = await collection.forEach((book) => {
-  //   let author_id = book[author_id];
-  //   let series_id = book[series_id];
-  //   console.log(author_id)
-  //   book[author_id] = findAuthorById(author_id);
-  //   book[series_id] = findSeriesById(series_id);
-  // })
-  // let results = await collection.find({})
-  //   .limit(50)
-  //   .toArray();
 
   res.send(results).status(200);
 });
@@ -55,6 +32,16 @@ router.post("/", async (req, res) => {
   //   newDocument.date = new Date();
   let result = await collection.insertOne(newDocument);
   res.send(result).status(204);
+});
+
+router.delete("/:id", async (req, res) => {
+  var oid = new ObjectId(req.params.id)
+  const query = { _id: oid };
+
+  const collection = db.collection("manga");
+  let result = await collection.deleteOne(query);
+
+  res.send(result).status(200);
 });
 
 export default router;

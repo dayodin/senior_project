@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Button, FormControl } from '@mui/material';
 import SeriesDropDown from './SeriesDropDown.js';
-import AddSeriesForm from './AddSeriesForm';
+import AddSeriesForm from './AddSeriesForm.js';
 
 const SeriesSelect = (props) => {
     const [showAddSeries, setShowAddSeries] = useState(false);
     const [refresh, setRefresh] = useState(0);
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const onClickAddSeries = () => setShowAddSeries(!showAddSeries);
 
@@ -18,8 +22,8 @@ const SeriesSelect = (props) => {
         <React.Fragment>
             <FormControl>
                 <SeriesDropDown book={props.book} setId={props.setId} refresh={refresh} />
-                <Button sx={{ m: 1, minWidth: 240 }} variant="outlined" onClick={onClickAddSeries}>Add Series</Button>
-                { showAddSeries ? <AddSeriesForm onAddSeries={onAddSeries} /> : null } 
+                <Button sx={{ m: 1, minWidth: 240 }} variant="outlined" onClick={handleOpen}>Add Series</Button>
+                <AddSeriesForm open={open} handleClose={handleClose} onAddSeries={onAddSeries} />
             </FormControl>
         </React.Fragment>
     );

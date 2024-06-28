@@ -1,9 +1,20 @@
 import React from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import CardActions from "@mui/material/CardActions";
+import { baseUrl } from "../../config";
 import { CardContent, Typography, Button } from "@mui/material";
 
 const MangaListItem = (props) => {
+
+    const onClickDelete = async () => {
+        await fetch(`${baseUrl}/manga/${props.value.id}`, {
+            method: 'DELETE',
+        })
+        .then(res => res.text())
+        props.onDelete();
+    }
+
     return (
         <Box sx={{ m: 1, maxWidth: 345 }}>
             <Card variant="outlined">
@@ -26,9 +37,9 @@ const MangaListItem = (props) => {
                         {'"a benevolent smile"'}
                     </Typography> */}
                 </CardContent>
-                {/* <CardActions> */}
-                    {/* <Button size="small">Learn More</Button> */}
-                {/* </CardActions> */}
+                <CardActions> 
+                    <Button size="small" onClick={onClickDelete} >Delete</Button>
+                </CardActions>
             </Card>
         </Box>
     )

@@ -9,9 +9,15 @@ const MangaList = (props) => {
             && props.series.length !== 0
             && props.authors.length !== 0
         ) {
+            // console.log(props.manga)
+            // console.log(props.series)
+            // console.log(props.authors)
+
             const refinedData = props.manga.map((item) => {
                 const series_id = item.series_id;
                 const author_id = item.author_id;
+                
+                // console.log(props.series.find((ser) => ser._id === series_id))
 
                 let series_name = props.series.find((ser) => ser._id === series_id).name;
                 let author_name = props.authors.find((auth) => auth._id === author_id);
@@ -30,10 +36,14 @@ const MangaList = (props) => {
         }
     }, [props.manga, props.series, props.authors])
 
+    const onDelete = () => {
+        props.fetchAgain();
+    }; 
+
     return (
         <React.Fragment>
             {manga.map(item => (
-                <MangaListItem value={item} key={item.id}/>))}
+                <MangaListItem value={item} onDelete={onDelete} key={item.id}/>))}
         </React.Fragment>
     )
 }
