@@ -2,7 +2,7 @@ import { baseUrl } from "../config";
 
 const fetchData = async (dest, setFunc) => {
     try {
-        await fetch(`${baseUrl}/` + `${dest}`, {
+        await fetch(`${baseUrl}/${dest}`, {
             method: "GET",
         }).then(async resp => {
             setFunc(await resp.json())});
