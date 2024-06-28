@@ -3,6 +3,8 @@ import { TextField, Button } from '@mui/material';
 import { FormControl, FormLabel } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import AuthorSelect from '../author_select/AuthorSelect';
+import AuthorDropDown from '../author_select/AuthorDropDown';
 import AddAuthorForm from '../author_select/AddAuthorForm';
 import { baseUrl } from '../../config';
 
@@ -17,7 +19,6 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-
 
 const AddSeriesForm = (props) => {
     const [series, setSeries] = useState({
@@ -86,8 +87,10 @@ const AddSeriesForm = (props) => {
                     <FormLabel>Series</FormLabel>
                     <TextField sx={{ m: .25 }} label='Series Name' name='name' onChange={handleSeriesChange}></TextField>
                     <FormLabel>Author</FormLabel>
+                    <AuthorSelect setId={props.setId} />
+                    {/* <AuthorDropDown book={props.book} setId={props.setId} />
                     <TextField sx={{ m: .25 }} label="First Name" name='f_name' onChange={handleAuthorChange} required={true}></TextField>
-                    <TextField sx={{ m: .25, mb: 1}} label="Last Name" name='l_name' onChange={handleAuthorChange}></TextField>
+                    <TextField sx={{ m: .25, mb: 1}} label="Last Name" name='l_name' onChange={handleAuthorChange}></TextField> */}
                     <Button sx={{ m: .25 }} variant="contained" onClick={handleSubmit}>Add</Button>
                 </FormControl>
             </Box>

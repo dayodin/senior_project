@@ -14,6 +14,7 @@ const GetDealsPage = () => {
             fetchData('series', setSeries);
             fetchData('authors', setAuthors);
         }
+        
         fetchAll();
     }, []);
 

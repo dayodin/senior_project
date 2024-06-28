@@ -23,7 +23,7 @@ const SeriesSelect = (props) => {
             <FormControl>
                 <SeriesDropDown book={props.book} setId={props.setId} refresh={refresh} />
                 <Button sx={{ m: 1, minWidth: 240 }} variant="outlined" onClick={handleOpen}>Add Series</Button>
-                <AddSeriesForm open={open} handleClose={handleClose} onAddSeries={onAddSeries} />
+                <AddSeriesForm open={open} setId={props.setId} handleClose={handleClose} onAddSeries={onAddSeries} />
             </FormControl>
         </React.Fragment>
     );
