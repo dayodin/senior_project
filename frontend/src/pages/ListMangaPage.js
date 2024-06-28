@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import fetchData from '../../helpers/fetchData.js';
-import MangaList from '../../components/manga_list/MangaList.js';
+import fetchData from '../helpers/fetchData.js';
+import MangaList from '../components/manga_list/MangaList.js';
 
 const ListMangaPage = (props) => {
     const [manga, setManga] = useState([]);

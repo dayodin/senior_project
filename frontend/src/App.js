@@ -1,6 +1,6 @@
-import AddMangaForm from './pages/mongo/AddMangaForm';
-import GetDealsPage from './pages/mongo/GetDealsPage';
-import ListMangaPage from './pages/mongo/ListMangaPage';
+import AddMangaForm from './pages/AddMangaForm';
+import GetDealsPage from './pages/GetDealsPage';
+import ListMangaPage from './pages/ListMangaPage';
 import Header from './components/nav/Header'
 import './App.css';
 import {

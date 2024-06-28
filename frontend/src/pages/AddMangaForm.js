@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControl } from '@mui/material';
-import { AddMangaContext } from '../../context/AddMangaContext';
-import ElementSelect from '../../components/select/ElementSelect';
-import SeriesDropDown from '../../components/select/series_select/SeriesDropDown';
-import AddSeriesForm from '../../components/select/series_select/AddSeriesForm';
-import postData from '../../helpers/postData';
+import { AddMangaContext } from '../context/AddMangaContext';
+import ElementSelect from '../components/select/ElementSelect';
+import SeriesDropDown from '../components/select/series_select/SeriesDropDown';
+import AddSeriesForm from '../components/select/series_select/AddSeriesForm';
+import postData from '../helpers/postData';
 
 const AddBookForm = (props) => {
     const [book, setBook] = useState({
@@ -23,7 +23,6 @@ const AddBookForm = (props) => {
         const author_id = book.author_id;
         const volume = book.volume;
         const price = book.volume_price;
-
         const body = { series_id, author_id, volume, price }
 
         postData('manga', body);

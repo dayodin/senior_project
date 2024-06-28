@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
-import fetchData from '../../helpers/fetchData';
-import { baseUrl } from '../../config';
+import fetchData from '../helpers/fetchData';
+import { baseUrl } from '../config';
 
 const GetDealsPage = () => {
     const [manga, setManga] = useState([]);
