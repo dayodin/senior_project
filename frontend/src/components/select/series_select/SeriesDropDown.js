@@ -4,8 +4,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext } from 'react';
-import fetchData from '../../helpers/fetchData';
-import { AddMangaContext } from '../../context/AddMangaContext';
+import fetchData from '../../../helpers/fetchData';
+import { AddMangaContext } from '../../../context/AddMangaContext';
 
 const SeriesDropDown = (props) => {
     const [collection, setCollection] = useState([]);
@@ -18,9 +18,10 @@ const SeriesDropDown = (props) => {
             target: { value },
         } = e;
 
-        const name = value.name;
-        context.setBook({ ...context.book, ...{"series_id": value._id, "author_id": value.author_id} });
+        const update = { "series_id": value._id, "author_id": value.author_id }
+        context.setBook({ ...context.book, ...update });
         
+        const name = value.name;
         setSelectedName([name]);
     };
 

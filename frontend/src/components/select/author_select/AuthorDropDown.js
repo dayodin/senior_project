@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import fetchData from '../../helpers/fetchData';
+import fetchData from '../../../helpers/fetchData';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { AddSeriesContext } from '../../context/AddSeriesContext';
+import { AddSeriesContext } from '../../../context/AddSeriesContext';
 
 const AuthorDropDown = (props) => {
     const [collection, setCollection] = useState([]);
@@ -17,10 +17,10 @@ const AuthorDropDown = (props) => {
             target: { value },
         } = e;
         
-        const name = value.first + " " + value.last;
-        const author_id = { "author_id": value._id};
-        context.setSeries({ ...context.series, ...author_id });
+        const update = { "author_id": value._id};
+        context.setSeries({ ...context.series, ...update });
 
+        const name = value.first + " " + value.last;
         setSelectedName([name]);
     };
 

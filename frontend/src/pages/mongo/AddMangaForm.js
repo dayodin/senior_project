@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControl } from '@mui/material';
 import { AddMangaContext } from '../../context/AddMangaContext';
-import ElementSelect from '../../components/ElementSelect';
-import SeriesDropDown from '../../components/series_select/SeriesDropDown';
-import AddSeriesForm from '../../components/series_select/AddSeriesForm';
+import ElementSelect from '../../components/select/ElementSelect';
+import SeriesDropDown from '../../components/select/series_select/SeriesDropDown';
+import AddSeriesForm from '../../components/select/series_select/AddSeriesForm';
 import postData from '../../helpers/postData';
 
 const AddBookForm = (props) => {
