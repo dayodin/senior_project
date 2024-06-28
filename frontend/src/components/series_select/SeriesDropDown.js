@@ -14,8 +14,14 @@ const SeriesDropDown = (props) => {
             target: { value },
         } = e;
         const name = value.name;
+        console.log(value)
         const id = { "series_id": value._id};
-        props.setId({ ...props.book, ...id });
+        const author_id = {"author_id": value.author_id}
+        console.log(id)
+        console.log(author_id)
+        props.setId({ ...props.book, ...{"series_id": value._id, "author_id": value.author_id} });
+        // props.setId({ ...props.book, ...author_id });
+        
         setSeriesName([name]);
     };
 
@@ -26,8 +32,6 @@ const SeriesDropDown = (props) => {
                     method: "GET", 
                 }).then(async resp => {
                     const ser = await resp.json();
-                    let i = 0;
-                    ser.forEach((element) => {element.index = i; i++;});
                     setSeries(ser)});
             } catch (err) {
                 console.log(err);
@@ -50,7 +54,7 @@ const SeriesDropDown = (props) => {
                     renderValue={(selected) => selected}
                     >
                     {series.map(ser => (
-                        <MenuItem value={ser} key={ser.index}>{ser.name}</MenuItem>))}
+                        <MenuItem value={ser} key={ser._id}>{ser.name}</MenuItem>))}
                 </Select>
             </FormControl>
         </React.Fragment>

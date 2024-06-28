@@ -1,7 +1,7 @@
 import AddMangaForm from './pages/mongo/AddMangaForm';
 import GetDealsPage from './pages/mongo/GetDealsPage';
 import ListMangaPage from './pages/mongo/ListMangaPage';
-import Header from './components/Header'
+import Header from './components/nav/Header'
 import './App.css';
 import {
   BrowserRouter,

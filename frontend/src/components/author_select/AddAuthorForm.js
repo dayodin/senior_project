@@ -24,7 +24,6 @@ const AddAuthorForm = (props) => {
           body: JSON.stringify({
             first, last 
           })
-          
         }).then(resp => resp.json());
         setAuthor({f_name: "", l_name: ""});
         props.onAddAuthor();
