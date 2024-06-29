@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import fetchData from '../helpers/fetchData.js';
+import SeriesList from '../components/series_list/SeriesList.js';
+import { MangaPageContext } from '../context/MangaPageContex.js';
 import MangaList from '../components/manga_list/MangaList.js';
 
-const ListMangaPage = (props) => {
+const MangaPage = () => {
     const [manga, setManga] = useState([]);
     const [series, setSeries] = useState([]);
     const [authors, setAuthors] = useState([]);
@@ -16,9 +18,13 @@ const ListMangaPage = (props) => {
     }
     
     return (
-        <React.Fragment>
-            <MangaList manga={manga} series={series} authors={authors} fetchAgain={fetchAgain} />
-        </React.Fragment>
+        <MangaPageContext.Provider value={{manga: manga, setManga: setManga, 
+                                           series: series, setSeries: setSeries, 
+                                           authors: authors, setAuthor: setAuthors,
+                                           fetchAgain: fetchAgain}} >
+            <SeriesList />
+            {/* <MangaList manga={manga} series={series} authors={authors} fetchAgain={fetchAgain} /> */}
+        </ MangaPageContext.Provider>
     );
 };
 
@@ -28,4 +34,4 @@ const fetchAll = async (setManga, setSeries, setAuthors) => {
     fetchData('authors', setAuthors);
 }
 
-export default ListMangaPage;
+export default MangaPage;

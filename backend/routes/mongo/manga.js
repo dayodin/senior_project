@@ -13,18 +13,14 @@ router.get("/", async (req, res) => {
   res.send(results).status(200);
 });
 
-function findAuthorById(id) {
-  let users = db.collection("users").find({}).toArray();
-  return users.filter( (user) => user['_id'] === id);
-}
+router.get("/series/:id", async (req, res) => {
+  const query = { series_id: req.params.id };
 
-const findSeriesById = async (id) => {
-  console.log(id);
-  let series = await db.collection("series").find(ObjectId(id)).toArray();
-  // series = series.find((series) => series['_id'] === id)
-  console.log(series);
-  return series.filter( (series) => series['_id'] === id);
-}
+  const collection = db.collection("manga");
+  let results = await collection.find(query).toArray();
+
+  res.send(results).status(200);
+});
 
 router.post("/", async (req, res) => {
   let collection = db.collection("manga");
