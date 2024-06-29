@@ -30,6 +30,22 @@ router.post("/", async (req, res) => {
   res.send(result).status(204);
 });
 
+router.patch("/:id", async (req, res) => {
+  var oid = new ObjectId(req.params.id)
+  const query = { _id: oid };
+  const updates = {
+      $set: { 
+          volume: req.body.volume,
+          price: req.body.price 
+      }
+  };
+
+  let collection = db.collection("manga");
+  let result = await collection.updateOne(query, updates);
+
+  res.send(result).status(200);
+});
+
 router.delete("/:id", async (req, res) => {
   var oid = new ObjectId(req.params.id)
   const query = { _id: oid };

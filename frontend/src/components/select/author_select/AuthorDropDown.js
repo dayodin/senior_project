@@ -30,9 +30,9 @@ const AuthorDropDown = (props) => {
 
     return (
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-            <InputLabel>Author</InputLabel>
+            <InputLabel>{context.default}</InputLabel>
             <Select
-                defaultValue = ""
+                defaultValue = {context.default}
                 value={selectedName}
                 onChange={handleChange}
                 renderValue={(selected) => selected}

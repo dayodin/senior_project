@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import IconButton from '@mui/material/IconButton';
+import React, { useState } from "react";
+import { IconButton, Card, CardActions, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Card from '@mui/material/Card';
-import CardActions from "@mui/material/CardActions";
-import { Button } from "@mui/material";
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 
 const UpdateDelete = (props) => {
@@ -15,6 +12,12 @@ const UpdateDelete = (props) => {
         setOpen(!open);
     };
 
+    const onHandleClickUpdate = () => {
+        setAnchor(null);
+        setOpen(false);
+        props.onUpdate();
+    }
+
     const id = open ? 'simple-popper' : undefined;
 
     return (
@@ -24,16 +27,16 @@ const UpdateDelete = (props) => {
             </IconButton>
             <BasePopup id={id} open={open} anchor={anchor}>
                 <Card>
-                        <CardActions>
-                            <Button sx={{ }} variant="outlined" size="small">Update</Button>
-                        </CardActions>
-                        <CardActions>
-                            <Button sx={{ mt: -1, color: "red" }} size="small" onClick={props.onDelete}>Delete</Button>
-                        </CardActions>
+                    <CardActions>
+                        <Button sx={{ }} variant="outlined" size="small" onClick={onHandleClickUpdate}>Update</Button>
+                    </CardActions>
+                    <CardActions>
+                        <Button sx={{ mt: -1, color: "red" }} size="small" onClick={props.onDelete}>Delete</Button>
+                    </CardActions>
                 </Card>
             </BasePopup>
         </React.Fragment>
-  );
+    );
 }
 
 export default UpdateDelete;
