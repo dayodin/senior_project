@@ -1,11 +1,11 @@
 import { baseUrl } from "../config";
 
-const postData = async (dest, body_data ) => {
+const putData = async (dest, body_data ) => {
     try {
         await fetch(`${baseUrl}/${dest}`, {
-            method: "POST",
+            method: 'PATCH',
             headers: {
-            "content-type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(body_data)
         }).then(resp => resp.json());
@@ -14,4 +14,4 @@ const postData = async (dest, body_data ) => {
     }
 }
 
-export default postData;
+export default putData;
