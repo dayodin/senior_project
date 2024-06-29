@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Card from '@mui/material/Card';
@@ -33,7 +33,7 @@ const UpdateDelete = (props) => {
                 </Card>
             </BasePopup>
         </React.Fragment>
-  );
+    );
 }
 
 export default UpdateDelete;

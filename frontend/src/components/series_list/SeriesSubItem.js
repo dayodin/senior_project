@@ -8,7 +8,6 @@ import deleteData from "../../helpers/deleteData";
 const SeriesSubItem = (props) => {
 
     const onClickDelete = async () => {
-        console.log("hi")
         deleteData(`manga/${props.value._id}`);
         props.refresh()
     }
