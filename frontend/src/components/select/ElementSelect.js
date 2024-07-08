@@ -31,7 +31,7 @@ const ElementSelect = (props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style} >
-                    <props.AddForm open={open} handleOpen={handleOpen} />
+                    <props.AddForm handleOpen={handleOpen} />
                 </Box>
             </ Modal>
         </FormControl>

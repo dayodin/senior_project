@@ -32,7 +32,7 @@ const AddSeriesForm = (props) => {
     }
 
     return (
-        <AddSeriesContext.Provider value={{series: series, setSeries: setSeries}}>
+        <AddSeriesContext.Provider value={{series: series, setSeries: setSeries, default: ""}}>
             <FormControl sx={{ m: 1, minWidth: 240 }}>
                 <FormLabel>Series</FormLabel>
                 <TextField 

@@ -15,10 +15,26 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     let collection = db.collection("series");
-    console.log(req.body);
+    // console.log(req.body);
     let newDocument = req.body;
     let result = await collection.insertOne(newDocument);
     res.send(result).status(204);
+});
+
+router.patch("/:id", async (req, res) => {
+    var oid = new ObjectId(req.params.id)
+    const query = { _id: oid };
+    const updates = {
+        $set: { 
+            name: req.body.name,
+            author_id: req.body.author_id 
+        }
+    };
+
+    let collection = db.collection("series");
+    let result = await collection.updateOne(query, updates);
+
+    res.send(result).status(200);
 });
 
 router.delete("/:id", async (req, res) => {

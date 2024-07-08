@@ -1,6 +1,6 @@
 import { baseUrl } from "../config";
 
-const fetchData = async (dest, body_data ) => {
+const postData = async (dest, body_data ) => {
     try {
         await fetch(`${baseUrl}/${dest}`, {
             method: "POST",
@@ -14,4 +14,4 @@ const fetchData = async (dest, body_data ) => {
     }
 }
 
-export default fetchData;
+export default postData;
