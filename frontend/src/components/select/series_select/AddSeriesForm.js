@@ -9,7 +9,10 @@ import { AddSeriesContext } from '../../../context/AddSeriesContext.js';
 const AddSeriesForm = (props) => {
     const [series, setSeries] = useState({
         name: "",
-        author_id: ""
+        author_id: "", // make it so there can be multiple authors
+        volumes: null,
+        ongoing: null,
+        alternative_names: null,
     });
 
     const handleSeriesChange = (e) => {

@@ -9,9 +9,18 @@ import postData from '../helpers/postData';
 const AddBookForm = (props) => {
     const [book, setBook] = useState({
         series_id: '',
-        author_id: '',
+        author_id: '',  // make it so there can be multiple authors
         volume: '',
-        volume_price: ''
+        volume_price: '',
+        original_price: null,
+        isbn: null,
+        isbn13: null,
+        edition: null,
+        published: null, 
+        language: null,
+        publisher_id: null,
+        cover_image: null,
+        related_images: null
     });
 
     const handleChange = (e) => {
