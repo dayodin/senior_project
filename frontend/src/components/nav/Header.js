@@ -44,6 +44,11 @@ export default function Header() {
                             Add Manga
                         </Button>
                     </NavLink>
+                    <NavLink to='manga/add_mult' >
+                        <Button  sx={{ m: 1, minWidth: 60 }} variant='contained'>
+                            Add Multiple
+                        </Button>
+                    </NavLink>
                     <NavLink to='/deals' >
                         <Button  sx={{ m: 1, minWidth: 60 }} variant='contained'>
                             Deals
