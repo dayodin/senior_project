@@ -12,15 +12,15 @@ const AddBookForm = (props) => {
         author_id: '',  // make it so there can be multiple authors
         volume: '',
         volume_price: '',
-        original_price: null,
-        isbn: null,
-        isbn13: null,
-        edition: null,
-        published: null, 
-        language: null,
-        publisher_id: null,
-        cover_image: null,
-        related_images: null
+        // original_price: null,
+        // isbn: null,
+        // isbn13: null,
+        // edition: null,
+        // published: null, 
+        // language: null,
+        // publisher_id: null,
+        // cover_image: null,
+        // related_images: null
     });
 
     const handleChange = (e) => {

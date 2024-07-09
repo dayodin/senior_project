@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { baseUrl } from '../config';
 import fetchData from '../helpers/fetchData';
+import postData from '../helpers/postData';
 import IsbnDbItem from '../components/result_item/isbndb_item';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -16,25 +17,19 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const AddMultipleMangaPage = () => {
     const [query, setQuery] = useState({
-        series: "One Piece",
-        author: "Eiichiro Oda",
-        publisher: "VIZ",
+        series: "Neon Genesis",
+        author: "",
+        publisher: "",
         volume: "1"
     })
+    const [authorsData, getAuthorsData] = useState([])
+    const [lastAddedAuthor, setLastAddedAuthor] = useState({})
+    const [seriesData, getSeriesData] = useState([])
     const [data, setData] = useState([]);
 
     const handleChange = (e) => {
         setQuery(prev=>({...prev, [e.target.name]: e.target.value}));
     };
-
-    const getGantz = async () => {
-        fetchData('isbndb', setData);
-
-        console.log(await data)
-        console.log(await data.data.filter(item => item.language === "en"))
-
-        setData([]);
-    }
 
     const getBooks = async () => {
         // fetchData('isbndb', setData);
@@ -75,8 +70,81 @@ const AddMultipleMangaPage = () => {
         setData(response)
     }
 
+    const onAdd = async (item) => {
+        await fetchData('series', getSeriesData)
+        let filteredSeriesData = await seriesData.filter(item => item.name.toLowerCase() === query.series.toLowerCase());
+        const author_ids = await getOrAddAuthors(item);
+        
+        console.log(author_ids);
+
+        if (filteredSeriesData[0] === undefined) {
+            const name = item.name;
+            const body = { name, author_ids}
+            console.log(body);
+            console.log("hello");
+            filteredSeriesData = [{_id: await postData('series', body).insertedId}];
+            // const name = query.series;
+            
+
+            // // const name = series.name;
+            // // const author_id = series.author_id;
+            // const body = { name, author_id };
+        }
+
+        console.log(await filteredSeriesData[0]._id)
+
+        let new_item = item;
+        const volume_price = 10;
+        new_item = {...new_item, series_id: await filteredSeriesData[0]._id, author_ids: author_ids, volume: query.volume, volume_price: volume_price}
+
+        console.log(new_item);
+        const response = await postData('manga', new_item);
+        console.log(await response)
+        // filterSeriesData(seriesInfo)
+        // postData("manga", item);
+        // console.log(await item);
+    }
+
+    const getOrAddAuthors = async (item) => {
+        await fetchData('authors', getAuthorsData);
+        console.log(authorsData)
+        console.log(item.authors);
+
+        const author_ids = []
+        
+        for (const author of item.authors) {
+            let splitter = author.includes(', ') ? ', ' : author.includes(' ') ? ' ' : undefined;
+            
+            let [first, last] = [,]
+
+            if (splitter === ', ') {
+                [last, first] = author.split(splitter)
+            } else if (splitter === ' ') {
+                [first, last] = author.split(splitter)
+            } else {
+                first = author;
+                last = "";
+            }
+            
+            let filteredAuthorData = authorsData.filter((auth) => auth.first === first && auth.last === last)
+
+            // if author is not in manga db
+            if (filteredAuthorData[0] === undefined) {
+                let body = { first, last }
+                filteredAuthorData = [{_id: await postData('authors', body).insertedId}];
+                console.log(await filteredAuthorData[0]._id)
+                const _id = await filteredAuthorData[0]._id
+                body = { _id, first, last }
+            }
+
+            author_ids.push(await filteredAuthorData[0]._id);
+        }
+
+        return author_ids;
+    }
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box>
             <Grid container spacing={2}>
                 <Grid xs={3} sx={{ m: 3, textAlign: 'center' }}>
                     
@@ -88,6 +156,7 @@ const AddMultipleMangaPage = () => {
                                 name='series' 
                                 defaultValue={query.series}
                                 onChange={handleChange} 
+                                required="True"
                             />
                             <TextField 
                                 sx={{ m: 1, minWidth: 240 }} 
@@ -117,7 +186,7 @@ const AddMultipleMangaPage = () => {
                 </Grid>
                 <Grid xs={7} sx={{ mt: 3 }} textAlign={ "left" }>
                         {data.map(item => (
-                            <IsbnDbItem key={item.isbn} item={item} />
+                            <IsbnDbItem key={item.isbn} item={item} onAdd={onAdd} />
                         ))}
                 </Grid>
             </Grid>

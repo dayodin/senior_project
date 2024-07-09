@@ -14,6 +14,10 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 const IsbnDbItem = (props) => {
     const theme = useTheme();
 
+    const onClickAdd = () => {
+        props.onAdd(props.item);
+    }
+
     return (
         <Card sx={{ m: 1, display: 'flex' }}>
             <CardMedia
@@ -38,7 +42,7 @@ const IsbnDbItem = (props) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button sx={{ m: 1, minWidth: 60, marginLeft: 'auto' }} variant='contained' onClick={null}>Add</Button>
+                    <Button sx={{ m: 1, minWidth: 60, marginLeft: 'auto' }} variant='contained' onClick={onClickAdd}>Add</Button>
                 </CardActions>
                 
                 {/* <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
