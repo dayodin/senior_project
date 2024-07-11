@@ -7,9 +7,8 @@ const ebayAuthToken = new EbayAuthToken({
 });
 
 let token = await ebayAuthToken.getApplicationToken('PRODUCTION');
+console.log(token)
 token = token.split(":")[1].split(",")[0];
 
-// console.log(token)
-
-export default token;
-
+export default token; 
+ 

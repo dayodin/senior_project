@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import fetchData from '../../../helpers/fetchData';
+import { fetchData } from '../../../helpers/apiHelpers';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';

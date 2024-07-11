@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControl } from '@mui/material';
+import { putData } from '../../../helpers/apiHelpers';
 import { AddSeriesContext } from '../../../context/AddSeriesContext';
-import putData from '../../../helpers/putData';
 
 const UpdateMangaForm = (props) => {
     const [manga, setManga] = useState(props.manga);

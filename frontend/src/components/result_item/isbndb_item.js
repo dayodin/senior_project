@@ -32,7 +32,7 @@ const IsbnDbItem = (props) => {
                         {props.item.title}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                        By {props.item.authors.map((author) => author)}
+                        By {props.item.authors.map((author) => author) }
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
                         {props.item.publisher}

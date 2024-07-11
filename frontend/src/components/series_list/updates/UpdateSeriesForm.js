@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControl } from '@mui/material';
 import { AddSeriesContext } from '../../../context/AddSeriesContext';
-import putData from '../../../helpers/putData';
+import { putData } from '../../../helpers/apiHelpers';
 import ElementSelect from '../../select/ElementSelect';
 import AddAuthorForm from '../../select/author_select/AddAuthorForm';
 import AuthorDropDown from '../../select/author_select/AuthorDropDown';

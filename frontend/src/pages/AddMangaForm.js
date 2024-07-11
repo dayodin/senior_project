@@ -4,7 +4,7 @@ import { AddMangaContext } from '../context/AddMangaContext';
 import ElementSelect from '../components/select/ElementSelect';
 import SeriesDropDown from '../components/select/series_select/SeriesDropDown';
 import AddSeriesForm from '../components/select/series_select/AddSeriesForm';
-import postData from '../helpers/postData';
+import { postData } from '../helpers/apiHelpers';
 
 const AddBookForm = (props) => {
     const [book, setBook] = useState({
@@ -12,15 +12,6 @@ const AddBookForm = (props) => {
         author_id: '',  // make it so there can be multiple authors
         volume: '',
         volume_price: '',
-        // original_price: null,
-        // isbn: null,
-        // isbn13: null,
-        // edition: null,
-        // published: null, 
-        // language: null,
-        // publisher_id: null,
-        // cover_image: null,
-        // related_images: null
     });
 
     const handleChange = (e) => {

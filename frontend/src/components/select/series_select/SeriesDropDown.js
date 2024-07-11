@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { fetchData } from '../../../helpers/apiHelpers';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useContext } from 'react';
-import fetchData from '../../../helpers/fetchData';
 import { AddMangaContext } from '../../../context/AddMangaContext';
 
 const SeriesDropDown = (props) => {
