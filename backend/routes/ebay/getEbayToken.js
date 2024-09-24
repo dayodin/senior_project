@@ -1,9 +1,9 @@
 import EbayAuthToken from 'ebay-oauth-nodejs-client';
 
 const ebayAuthToken = new EbayAuthToken({
-    clientId: 'KarstenD-mb-PRD-a6e6e405f-7235f523',
-    clientSecret: 'PRD-6e6e405fb6e9-85c1-4788-8f4e-a5ea',
-    redirectUri: 'Karsten_Dinsmor-KarstenD-mb-PRD-dqvpnq'
+    clientId: 'KarstenD-mb2-PRD-f941052cf-9b3bb774',
+    clientSecret: 'PRD-941052cf5d08-257d-412f-b98b-e2d3',
+    redirectUri: 'Karsten_Dinsmor-KarstenD-mb2-PR-mqcjymk'
 });
 
 let token = await ebayAuthToken.getApplicationToken('PRODUCTION');

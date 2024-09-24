@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import fetchData from '../helpers/fetchData.js';
+import { fetchData } from '../helpers/apiHelpers';
 import SeriesList from '../components/series_list/SeriesList.js';
 import { MangaPageContext } from '../context/MangaPageContex.js';
 import MangaList from '../components/manga_list/MangaList.js';

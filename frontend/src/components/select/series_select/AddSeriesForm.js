@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel, TextField, Button } from '@mui/material';
+import { postData } from '../../../helpers/apiHelpers.js';
 import ElementSelect from '../ElementSelect.js';
 import AuthorDropDown from '../author_select/AuthorDropDown.js';
 import AddAuthorForm from '../author_select/AddAuthorForm.js';
-import postData from '../../../helpers/postData.js';
 import { AddSeriesContext } from '../../../context/AddSeriesContext.js';
 
 const AddSeriesForm = (props) => {
     const [series, setSeries] = useState({
         name: "",
         author_id: "", // make it so there can be multiple authors
-        volumes: null,
-        ongoing: null,
-        alternative_names: null,
+        // volumes: null,
+        // ongoing: null,
+        // alternative_names: null,
     });
 
     const handleSeriesChange = (e) => {

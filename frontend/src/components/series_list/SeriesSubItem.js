@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Card, CardHeader, Modal } from '@mui/material';
+import { deleteData } from "../../helpers/apiHelpers";
 import UpdateMangaForm from "./updates/UpdateMangaForm";
-import deleteData from "../../helpers/deleteData";
 import UpdateDelete from "./settings/UpdateDelete";
 
 const style = {

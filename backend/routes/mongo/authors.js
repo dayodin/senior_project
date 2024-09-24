@@ -38,6 +38,18 @@ router.get("/:id", async (req, res) => {
   res.send(results).status(200);
 });
 
+// router.get("/?name", async (req, res) => {
+//   var oid = new ObjectId(req.params.id)
+//   const query = { _id: oid };
+
+//   const collection = db.collection("authors");
+//   let results = await collection.findOne(query);
+
+//   console.log(results)
+
+//   res.send(results).status(200);
+// });
+
 // Add a new document to the collection
 router.post("/", async (req, res) => { 
   let collection = db.collection("authors");
@@ -62,7 +74,8 @@ router.post("/", async (req, res) => {
 
 // Delete an entry
 router.delete("/:id", async (req, res) => {
-  const query = { _id: ObjectId(req.params.id) };
+  var oid = new ObjectId(req.params.id)
+  const query = { _id: oid };
 
   const collection = db.collection("authors");
   let result = await collection.deleteOne(query);

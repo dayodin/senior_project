@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Card, CardHeader, Modal } from '@mui/material';
-import fetchData from "../../helpers/fetchData";
-import deleteData from "../../helpers/deleteData";
+import { fetchData, deleteData } from "../../helpers/apiHelpers";
 import SeriesSubItem from "./SeriesSubItem";
 import UpdateDelete from "./settings/UpdateDelete";
 import UpdateSeriesForm from "./updates/UpdateSeriesForm";

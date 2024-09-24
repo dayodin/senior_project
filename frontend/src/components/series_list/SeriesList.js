@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import fetchData from "../../helpers/fetchData";
+import { fetchData } from "../../helpers/apiHelpers";
 import SeriesItem from "./SeriesItem";
 
 const SeriesList = () => {
