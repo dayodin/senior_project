@@ -1,14 +1,14 @@
 import express from "express";
 import axios from "axios";
 import { createSearchQuery } from "../../helpers/getMangaHelpers.js";
-import token from "./getEbayToken.js";
 // import token from "./getEbayToken.js";
+import { NewEbayAuthToken } from "./getEbayToken.js";
 
 const router = express.Router();
 
 // let token = await getEBayToken()
 
-const tkn = "bearer " + token
+const tkn = "bearer " + await NewEbayAuthToken();
 
 router.post("/", async (req, res) => {
   const series_name = req.body.series_name;
