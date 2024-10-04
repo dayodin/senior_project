@@ -1,5 +1,6 @@
 import EbayAuthToken from 'ebay-oauth-nodejs-client';
 
+// Generates a new access_token
 export async function NewEbayAuthToken() {
     const ebayAuthToken = new EbayAuthToken({
         clientId: process.env.EBAY_CLIENTID,
