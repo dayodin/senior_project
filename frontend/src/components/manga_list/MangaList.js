@@ -14,8 +14,9 @@ const MangaList = (props) => {
                 const author_id = item.author_id;
 
                 let series_name = props.series.find((ser) => ser._id === series_id).name;
-                let author_name = props.authors.find((auth) => auth._id === author_id);
-                author_name = author_name.first + " " + author_name.last;
+                // let author_name = props.authors.find((auth) => auth._id === author_id);
+                let author_name = props.authors[0];
+                // author_name = author_name.first + " " + author_name.last;
 
                 return {
                     id: item._id,
