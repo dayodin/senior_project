@@ -11,7 +11,7 @@ const MangaList = (props) => {
         ) {
             const refinedData = props.manga.map((item) => {
                 const series_id = item.series_id;
-                const author_id = item.author_id;
+                const author_ids = item.author_ids;
 
                 let series_name = props.series.find((ser) => ser._id === series_id).name;
                 // let author_name = props.authors.find((auth) => auth._id === author_id);

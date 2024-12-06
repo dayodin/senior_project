@@ -1,7 +1,5 @@
 export function filterISBNData (response, series, volume) {
 
-    
-
     return response.data.filter(item => item.language === "en" && 
                                         item.binding !== "Kindle Edition" && 
                                         item.title.toLowerCase().startsWith(series.toLowerCase()) && 
