@@ -9,14 +9,12 @@ router.post("/", async (req, res) => {
 
   let tkn = await getEbayToken()
 
-  const series_name = req.body.series_name;
+  const book_title = req.body.book_title;
   const volume = req.body.volume;
   const authors = req.body.authors;
   const price = req.body.price;
 
-  const search_query = createSearchQuery(series_name, volume, price, authors)
-
-  // console.log(search_query)
+  const search_query = createSearchQuery(book_title, volume, price, authors)
   
   axios({
     method: 'get',

@@ -9,11 +9,10 @@ import { seriesExists, addSeries } from '../helpers/seriesHelpers';
 import { mangaExists, addManga } from '../helpers/mangaHelpers';
 import { filterISBNData } from '../helpers/filterISBNData';
 
-const Item = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(1),
-    textAlign: 'center',
-  }));
-
+// const Item = styled(Paper)(({ theme }) => ({
+//     padding: theme.spacing(1),
+//     textAlign: 'center',
+// }));
 
 const AddMultipleMangaPage = () => {
     const [query, setQuery] = useState({
@@ -44,12 +43,12 @@ const AddMultipleMangaPage = () => {
         })
         response = await response.json();
 
-        console.log(response);
-        console.log(volume)
+        // console.log(response);
+        // console.log(volume)
 
         const filteredResponse = filterISBNData(response, series, volume)
 
-        console.log(filteredResponse);                                
+        // console.log(filteredResponse);                                
         setData(filteredResponse)
     }
 
@@ -65,9 +64,9 @@ const AddMultipleMangaPage = () => {
 
         // let new_manga = {...manga, series_id: series_id, author_ids: author_ids, volume: volume, volume_price: volume_price}
 
-        console.log(author_ids);
-        console.log(series_id);
-        console.log(manga_id)
+        // console.log(author_ids);
+        // console.log(series_id);
+        // console.log(manga_id);
         
     }
 

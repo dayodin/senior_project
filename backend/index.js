@@ -10,23 +10,15 @@ import getManga from "./routes/ebay/getManga.js";
 import ISBNDB from "./routes/isbndb/getISBNDBInfo.js"
 
 // import { newEbayAuthToken } from "./routes/ebay/getEbayToken.js";
-import { getTokenTSDiff, newEbayAuthToken } from "./helpers/eBayTokenHelpers.js";
+import { tokenInterval } from "./helpers/eBayTokenHelpers.js";
 
 const PORT = process.env.PORT || 5050;
 const app = express(); 
 
-let DELAY = 2 * 60 * 60 * 1000;
-
 app.use(cors());
 app.use(express.json());
 
-const token_ts_diff = await getTokenTSDiff();
-
-if (token_ts_diff > DELAY) await newEbayAuthToken();
-
-DELAY -= token_ts_diff;
-
-setInterval(newEbayAuthToken, DELAY);
+await tokenInterval();
 
 // Load the /posts routes
 app.use("/authors", authors);

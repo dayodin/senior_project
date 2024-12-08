@@ -2,8 +2,26 @@ import db from "../db/mongoConfig.js";
 import { ObjectId } from "mongodb";
 import EbayAuthToken from 'ebay-oauth-nodejs-client';
 
+// const TIMEOUT = 10 * 1000;
+const TIMEOUT = 2 * 60 * 60 * 1000;
+
+export async function tokenInterval() {
+    const token_ts_diff = await getTokenTSDiff();
+    
+    if (token_ts_diff > TIMEOUT) {
+        // console.log("hello")
+        await newEbayAuthToken();
+        setInterval(newEbayAuthToken, TIMEOUT)
+    } else {
+        // console.log("hi");
+        setTimeout(tokenInterval, token_ts_diff);
+    }
+}
+
 // Generates a new access_token
 export async function newEbayAuthToken() {
+    // console.log("yo");
+
     const ebayAuthToken = new EbayAuthToken({
         clientId: process.env.EBAY_CLIENTID,
         clientSecret: process.env.EBAY_CLIENTSECRET,
