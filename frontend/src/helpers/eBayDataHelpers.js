@@ -5,7 +5,7 @@ export async function getEBayData () {
 
     let manga = await getData("manga");
 
-    return await Promise.all(manga.map(async (book) => {
+    let hits = await Promise.all(manga.map(async (book) => {
         let volume = book.volume;
         let price = book.price;
         let book_title = book.title;
@@ -29,26 +29,23 @@ export async function getEBayData () {
             response.authors = author_names
             response.volume = volume
             response.price = price
- 
-            return response;
+            
+            let filtered = findDeals(response.itemSummaries, book_title, volume, price);
+
+            return filtered;
         } catch (error) {
             console.log(error);
         }
     }))
-}
 
+    hits = hits.filter(hit => {if (hit !== undefined) return hit})
 
-
-
-
-export async function filterEbayData (mangaHits) {
-    console.log(mangaHits);
-    // console.log(mangaHits[0].value)
-    mangaHits.forEach(item => console.log(item.value))
-
+    return hits
 }
 
 export function findDeals(results, book_title, volume, price) {
+
+    // console.log(results)
 
     if (results !== undefined){
         results = results.map(hit => {
@@ -63,6 +60,7 @@ export function findDeals(results, book_title, volume, price) {
                 // series: 
                 title: book_title,
                 volume: volume,
+                profit: (price - total).toFixed(2),
                 total: total,
                 price: hit.price.value,
                 shipping: shipping,   
@@ -72,13 +70,13 @@ export function findDeals(results, book_title, volume, price) {
             }
         })
         
-        results = results.filter(hit => hit.total - price < 0 && 
+        results = results.filter(hit => hit.profit > 5 && 
             !hit.item.title.toLowerCase().includes('in japanese') && 
             hit.item.title.includes(volume) &&
             hit.item.condition !== "Acceptable").sort(compareTotals)
     }
 
-    return results;
+    if (results !== undefined && results[0] !== undefined) return results;
 }
 
 function compareTotals(a, b) {

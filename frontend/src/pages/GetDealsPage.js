@@ -8,9 +8,19 @@ const GetDealsPage = () => {
 
     const handleSubmit = async () => {
         
-        const responseArr = await getEBayData();
+        const hits = await getEBayData();
 
-        setHits(responseArr.map(results => findDeals(results.itemSummaries, results.title, results.volume, results.price)));
+        console.log(hits)
+
+        setHits(hits)
+
+        let allResults = [];        
+
+        for (let i = 0; i < hits.length; i++) allResults.push(...hits[i]);
+
+        allResults.sort((a, b) => b.profit - a.profit)
+        
+        console.log(allResults)
     }
 
     return (
@@ -18,9 +28,7 @@ const GetDealsPage = () => {
             <Button sx={{ m: 3, minWidth: 60 }} variant="outlined" onClick={handleSubmit}>Get Deals</Button>
             <Grid container spacing={2} sx={{ml: 2}}>
                 {hits.map(item => {
-                    if (item !== undefined && item[0] !== undefined) {
-                        return <EbayHitItem value={item}/>
-                    }
+                    return <EbayHitItem value={item}/>
                 })}
             </Grid>
         </React.Fragment>
