@@ -14,7 +14,7 @@ import EbayAuthToken from 'ebay-oauth-nodejs-client';
 //     return token.split(":")[1].split(",")[0];
 // }
 
-export function createSearchQuery(series, volume, volume_price, authorsArr) {
+export function createSearchQuery(book_title, volume, volume_price, authorsArr) {
     // const title = series_name;
     const vol = " vol " + volume;
     const authors = ""; 
@@ -22,7 +22,7 @@ export function createSearchQuery(series, volume, volume_price, authorsArr) {
     const categoryId = "&aspect_filter=categoryId:[259109|267|63|33346|261186]&filter=excludeCategoryIds:{183454|2536|617|11232|1105|184644|176984|11233}"
     const location = "&filter=itemLocationCountry:US"
 
-    const search_query = "search?q=" + series + vol + " " + authors + price + "&limit=25" + categoryId + location;
+    const search_query = "search?q=" + book_title + vol + " " + authors + price + "&limit=25" + categoryId + location;
 
     return search_query;
 }
