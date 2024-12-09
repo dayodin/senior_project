@@ -9,7 +9,7 @@ const EbayHitItem = (props) => {
     if (market_value - props.value[0].total <= 5) return;
 
     return (
-        <Card sx={{ m: 1, display: 'flex', minWidth: "25%"}}>
+        <Card sx={{ m: 1, display: 'flex', minWidth: "25%"}}> 
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="h5">
