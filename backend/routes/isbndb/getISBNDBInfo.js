@@ -18,11 +18,11 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     console.log(req.body)
-    const series = req.body.series === "" ? "" : req.body.series.replace(" ", "%20")
-    const author = req.body.author === "" ? "" : `&author=${req.body.author.replace(" ", "%20")}`
+    const series = req.body.series === "" ? "" : req.body.series.replaceAll(" ", "%20")
+    const author = req.body.author === "" ? "" : `&author=${req.body.author.replaceAll(" ", "%20")}`
     const volume = req.body.volume === "" ? "" : `vol%20${req.body.volume}`
     const publisher = req.body.publisher === "" ? "" : `&publisher=${req.body.publisher}`
-    const query = `search/books?pageSize=1000${author}&text=${series}%20${volume}${publisher}`
+    const query = `search/books?pageSize=1000${author}&text=${series}%20${volume}${publisher}&language=english&shouldMatchAll=0`
 
     console.log(query);
 

@@ -43,7 +43,7 @@ const AddMultipleMangaPage = () => {
         })
         response = await response.json();
 
-        // console.log(response);
+        console.log(response);
         // console.log(volume)
 
         const filteredResponse = filterISBNData(response, series, volume)
