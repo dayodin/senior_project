@@ -1,7 +1,13 @@
 import db from "../../db/mongoConfig.js";
 import { ebayCall } from "../../helpers/getMangaHelpers.js";
 
-const baseUrl = "http://localhost:5050";
+const TIMEOUT = 10 * 1000;
+// const TIMEOUT = 2 * 60 * 60 * 1000;
+
+export async function setUpDeals () {
+    await deals();
+    setInterval(deals, TIMEOUT)
+}
 
 export async function deals () {
     const hits = await getEBayData();
