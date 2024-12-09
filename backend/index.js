@@ -11,6 +11,7 @@ import ISBNDB from "./routes/isbndb/getISBNDBInfo.js"
 
 // import { newEbayAuthToken } from "./routes/ebay/getEbayToken.js";
 import { tokenInterval } from "./helpers/eBayTokenHelpers.js";
+import { deals } from "./routes/ebay/getDeals.js";
 
 const PORT = process.env.PORT || 5050;
 const app = express(); 
@@ -26,6 +27,8 @@ app.use("/series", series);
 app.use("/manga", manga);
 app.use("/getManga", getManga);
 app.use("/isbndb", ISBNDB)
+
+await deals()
 
 // Global error handling
 app.use((err, _req, res, next) => {

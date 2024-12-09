@@ -1,18 +1,28 @@
-import EbayAuthToken from 'ebay-oauth-nodejs-client';
+import { getEbayToken } from "./eBayTokenHelpers.js";
+import axios from "axios";
 
-// export async function getEBayToken() {
+export async function ebayCall (book_title, volume, price) {
 
-//     const ebayAuthToken = new EbayAuthToken({
-//         clientId: 'KarstenD-mb-PRD-a6e6e405f-7235f523',
-//         clientSecret: 'PRD-6e6e405fb6e9-85c1-4788-8f4e-a5ea',
-//         redirectUri: 'Karsten_Dinsmor-KarstenD-mb-PRD-dqvpnq'
-//     });
+    let tkn = await getEbayToken()
 
-//     let token = await ebayAuthToken.getApplicationToken('PRODUCTION');
+    // const book_title = book_title;
+    // const volume = volume;
+    const authors = undefined;
+    // const price = price;
 
-//     console.log(token);
-//     return token.split(":")[1].split(",")[0];
-// }
+    const search_query = createSearchQuery(book_title, volume, price, authors)
+    
+    let response = await axios({
+        method: 'get',
+        url: 'https://api.ebay.com/buy/browse/v1/item_summary/' + search_query,
+        headers: {
+            'Authorization': tkn
+        }
+    })
+    
+    return response.data
+}
+
 
 export function createSearchQuery(book_title, volume, volume_price, authorsArr) {
     // const title = series_name;
@@ -26,4 +36,3 @@ export function createSearchQuery(book_title, volume, volume_price, authorsArr) 
 
     return search_query;
 }
-
