@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
-import { getEBayData, findDeals } from '../helpers/eBayDataHelpers';
+import { getEBayData } from '../helpers/ebay_helpers/eBayDataHelpers';
 import EbayHitItem from '../components/eBay/EbayHitItem';
 
 const GetDealsPage = () => {

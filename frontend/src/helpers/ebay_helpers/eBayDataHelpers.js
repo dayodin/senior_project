@@ -1,11 +1,12 @@
-import { baseUrl } from '../config';
-import { getData } from './apiHelpers';
+import { baseUrl } from '../../config';
+import { getData } from '../apiHelpers';
 
 export async function getEBayData () {
 
     let manga = await getData("manga");
 
     let hits = await Promise.all(manga.map(async (book) => {
+        
         let volume = book.volume;
         let price = book.price;
         let book_title = book.title;
@@ -38,24 +39,28 @@ export async function getEBayData () {
         }
     }))
 
-    hits = hits.filter(hit => {if (hit !== undefined) return hit})
+    hits = hits.filter(hit => hit !== undefined)
 
     return hits
 }
 
 export function findDeals(results, book_title, volume, price) {
 
-    // console.log(results)
-
     if (results !== undefined){
+
         results = results.map(hit => {
+
             let shipping = 6;
+
             if (hit.shippingOptions !== undefined) {
+                
                 if (hit.shippingOptions[0].shippingCostType === "FIXED"){
                     shipping = parseFloat(hit.shippingOptions[0].shippingCost.value);
                 } 
             }
+
             const total = (parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2)
+
             return {
                 // series: 
                 title: book_title,

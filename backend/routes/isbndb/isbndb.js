@@ -1,6 +1,6 @@
 import express from "express";
 import axios from "axios";
-import instance from "./isbndb_config.js";
+import instance from "../../db/isbndb_config.js";
 
 const router = express.Router();
 

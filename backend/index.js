@@ -6,12 +6,11 @@ import "express-async-errors";
 import authors from "./routes/mongo/authors.js";
 import series from "./routes/mongo/series.js";
 import manga from "./routes/mongo/manga.js";
-import getManga from "./routes/ebay/getManga.js";
-import ISBNDB from "./routes/isbndb/getISBNDBInfo.js"
+import getManga from "./routes/ebay/ebay.js";
+import ISBNDB from "./routes/isbndb/isbndb.js"
 
-// import { newEbayAuthToken } from "./routes/ebay/getEbayToken.js";
-import { tokenInterval } from "./helpers/eBayTokenHelpers.js";
-import { setUpDeals } from "./routes/ebay/getDeals.js";
+import { tokenInterval } from "./helpers/ebay_helpers/ebay_token_helpers.js";
+import { setUpDeals } from "./helpers/ebay_helpers/ebay_find_hits_helpers.js";
 
 const PORT = process.env.PORT || 5050;
 const app = express(); 
@@ -19,16 +18,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-await tokenInterval();
-
 // Load the /posts routes
 app.use("/authors", authors);
 app.use("/series", series);
 app.use("/manga", manga);
 app.use("/getManga", getManga);
 app.use("/isbndb", ISBNDB)
-
-await setUpDeals();
 
 // Global error handling
 app.use((err, _req, res, next) => {
@@ -39,3 +34,6 @@ app.use((err, _req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
+
+await tokenInterval();
+await setUpDeals();

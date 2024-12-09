@@ -1,14 +1,11 @@
-import { getEbayToken } from "./eBayTokenHelpers.js";
+import { getEbayToken } from "../../routes/ebay/ebay_token.js";
 import axios from "axios";
 
 export async function ebayCall (book_title, volume, price) {
 
     let tkn = await getEbayToken()
 
-    // const book_title = book_title;
-    // const volume = volume;
     const authors = undefined;
-    // const price = price;
 
     const search_query = createSearchQuery(book_title, volume, price, authors)
     
@@ -23,9 +20,8 @@ export async function ebayCall (book_title, volume, price) {
     return response.data
 }
 
-
 export function createSearchQuery(book_title, volume, volume_price, authorsArr) {
-    // const title = series_name;
+
     const vol = " vol " + volume;
     const authors = ""; 
     const price = "&filter=price:[0.. " + volume_price + "],priceCurrency:USD"

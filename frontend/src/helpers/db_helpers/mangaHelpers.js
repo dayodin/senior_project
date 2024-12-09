@@ -1,4 +1,4 @@
-import { getData, postData } from "./apiHelpers";
+import { getData, postData } from "../apiHelpers";
 
 export async function addManga (manga) {
 
@@ -20,7 +20,17 @@ export async function mangaExists (manga) {
     return filteredMangaData[0] !== undefined ? filteredMangaData[0]._id : false; 
 }
 
+export async function getOrAddManga (manga, series_id, author_ids, volume, price) {
+    
+    let updated_manga = {...manga, series_id: series_id, author_ids: author_ids, volume: volume, price: price}
+
+    let manga_id = await mangaExists(updated_manga)
+
+    return manga_id ? manga_id : await addManga(updated_manga);
+}
+
 export function isMangaEqual (givenData, itemData) {
+    
     if (
         !givenData              || !itemData            || !givenData.volume || 
         !itemData.volume        || !givenData.series_id || !itemData.series_id || 
@@ -50,6 +60,7 @@ export function isMangaEqual (givenData, itemData) {
 }
 
 function arraysEqual (a, b) {
+
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;

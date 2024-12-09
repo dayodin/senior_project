@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MangaListItem from "./MangaListItem";
 
 const MangaList = (props) => {
+    
     const [manga, setManga] = useState([])
 
     useEffect(() => {
@@ -11,12 +12,10 @@ const MangaList = (props) => {
         ) {
             const refinedData = props.manga.map((item) => {
                 const series_id = item.series_id;
-                const author_ids = item.author_ids;
+                // const author_ids = item.author_ids;
 
-                let series_name = props.series.find((ser) => ser._id === series_id).name;
-                // let author_name = props.authors.find((auth) => auth._id === author_id);
-                let author_name = props.authors[0];
-                // author_name = author_name.first + " " + author_name.last;
+                const series_name = props.series.find((ser) => ser._id === series_id).name;
+                const author_name = props.authors[0];
 
                 return {
                     id: item._id,

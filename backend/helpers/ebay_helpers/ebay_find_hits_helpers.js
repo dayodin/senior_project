@@ -1,7 +1,6 @@
-import db from "../../db/mongoConfig.js";
-import { ebayCall } from "../../helpers/getMangaHelpers.js";
-import { sendEmail } from "../../helpers/emailHelpers.js";
-import { all } from "axios";
+import db from "../../db/mongo_config.js";
+import { ebayCall } from "./ebay_get_data_helpers.js";
+import { sendEmail } from "../../routes/email/email.js";
 
 const TIMEOUT = 10 * 1000;
 // const TIMEOUT = 2 * 60 * 60 * 1000;
@@ -11,9 +10,10 @@ export async function setUpDeals () {
     // setInterval(deals, TIMEOUT)
 }
 
-export async function deals () {
-    const hits = await getEBayData();
+async function deals () {
 
+    const hits = await getEBayData();
+    
     let allResults = [];        
 
     for (let i = 0; i < hits.length; i++) allResults.push(...hits[i]);
@@ -22,24 +22,16 @@ export async function deals () {
 
     console.log(allResults.length)
 
-    let book1 = allResults[0];
+    // let book = allResults[0];
 
-    let template_params = {
-        title : book1.title,
-        price : book1.total,
-        message : "PROFIT: $" + book1.profit
-    }
-
-    await sendEmail(template_params);
+    // await sendEmail(book);
 }
 
-export async function getEBayData () {
+async function getEBayData () {
 
     let collection = db.collection("manga");
     
     let manga = await collection.find({}).toArray()
-
-    // console.log(manga)
 
     let hits = await Promise.all(manga.map(async (book) => {
         let volume = book.volume;
@@ -69,21 +61,24 @@ export async function getEBayData () {
     return hits
 }
 
-export function findDeals(results, book_title, volume, price) {
-
-    // console.log(results)
+function findDeals(results, book_title, volume, price) {
 
     if (results !== undefined){
+
         results = results.map(hit => {
+
             let shipping = 6;
+
             if (hit.shippingOptions !== undefined) {
+
                 if (hit.shippingOptions[0].shippingCostType === "FIXED"){
                     shipping = parseFloat(hit.shippingOptions[0].shippingCost.value);
                 } 
             }
+
             const total = (parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2)
+
             return {
-                // series: 
                 title: book_title,
                 volume: volume,
                 profit: (price - total).toFixed(2),

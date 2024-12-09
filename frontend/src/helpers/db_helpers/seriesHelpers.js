@@ -1,4 +1,4 @@
-import { getData, postData } from "./apiHelpers";
+import { getData, postData } from "../apiHelpers";
 
 export async function addSeries (name, author_ids) {
 
@@ -16,9 +16,18 @@ export async function addSeries (name, author_ids) {
 
 // Checks if a series exists within MangaDB
 export async function seriesExists (series) {
+    
     const seriesData = await getData("series")
 
     let filteredSeriesData = seriesData.filter(item => item.name === series);
 
     return filteredSeriesData[0] !== undefined ? filteredSeriesData[0]._id : false; 
 }
+
+export async function getOrAddSeries (series, author_ids) {
+
+    let series_id = await seriesExists(series);
+    
+    return series_id ? series_id : await addSeries(series, author_ids)
+}
+

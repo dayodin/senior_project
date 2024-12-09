@@ -1,7 +1,6 @@
-import AddMangaForm from './pages/AddMangaForm';
 import GetDealsPage from './pages/GetDealsPage';
 import ListMangaPage from './pages/MangaPage';
-import AddMultipleMangaPage from './pages/AddMultipleMangaPage';
+import AddMultipleMangaPage from './pages/AddMangaPage';
 import Header from './components/nav/Header'
 import './App.css';
 import {
@@ -18,7 +17,6 @@ function App() {
           <Header />
           <Routes>
             <Route path='/manga' load={"load"} element={<ListMangaPage />} />
-            <Route path='/manga/add' element={<AddMangaForm />} />
             <Route path='/manga/add_mult' element={<AddMultipleMangaPage />} />
             <Route path='/deals' element={<GetDealsPage />} />
           </Routes>

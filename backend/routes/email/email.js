@@ -1,6 +1,14 @@
 import axios from "axios";
 
-export async function sendEmail (template_params) {
+export async function sendEmail (book) {
+
+    let template_params = {
+        title : book.title,
+        price : book.total,
+        message : "PROFIT: $" + book.profit,
+        link : book.url    
+    }
+
     await axios.post('https://api.emailjs.com/api/v1.0/email/send', 
         {
             service_id: 'service_xgxsdjs',
