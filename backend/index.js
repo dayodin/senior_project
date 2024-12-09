@@ -28,7 +28,7 @@ app.use("/manga", manga);
 app.use("/getManga", getManga);
 app.use("/isbndb", ISBNDB)
 
-// await setUpDeals();
+await setUpDeals();
 
 // Global error handling
 app.use((err, _req, res, next) => {

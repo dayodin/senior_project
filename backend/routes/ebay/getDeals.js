@@ -1,12 +1,14 @@
 import db from "../../db/mongoConfig.js";
 import { ebayCall } from "../../helpers/getMangaHelpers.js";
+import { sendEmail } from "../../helpers/emailHelpers.js";
+import { all } from "axios";
 
 const TIMEOUT = 10 * 1000;
 // const TIMEOUT = 2 * 60 * 60 * 1000;
 
 export async function setUpDeals () {
     await deals();
-    setInterval(deals, TIMEOUT)
+    // setInterval(deals, TIMEOUT)
 }
 
 export async function deals () {
@@ -19,6 +21,16 @@ export async function deals () {
     allResults.sort((a, b) => b.profit - a.profit)
 
     console.log(allResults.length)
+
+    let book1 = allResults[0];
+
+    let template_params = {
+        title : book1.title,
+        price : book1.total,
+        message : "PROFIT: $" + book1.profit
+    }
+
+    await sendEmail(template_params);
 }
 
 export async function getEBayData () {
