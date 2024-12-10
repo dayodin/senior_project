@@ -6,10 +6,18 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     let collection = await db.collection("series");
-    let results = await collection.find({})
-        .limit(50)
-        .toArray();
+    let results = await collection.find({}).toArray();
 
+    res.send(results).status(200);
+});
+
+router.get("/:id", async (req, res) => {
+    var oid = new ObjectId(req.params.id)
+    const query = { _id: oid };
+  
+    const collection = db.collection("series");
+    let results = await collection.findOne(query);
+  
     res.send(results).status(200);
 });
 

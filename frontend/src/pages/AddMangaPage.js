@@ -4,7 +4,7 @@ import { Button, FormControl, TextField, Grid, Box } from '@mui/material';
 
 import { baseUrl } from '../config';
 
-import IsbnDbItem from '../components/result_item/isbndb_item';
+import IsbnItem from '../components/result_item/IsbnItem';
 
 import { filterISBNData } from '../helpers/isbndb_helpers/isbnDataHelpers';
 import { getOrAddAuthors } from '../helpers/db_helpers/authorHelpers';
@@ -43,23 +43,25 @@ const AddMultipleMangaPage = () => {
 
         response = await response.json();
 
-        console.log(response);
+        // console.log(response);
 
         const filteredResponse = filterISBNData(response, series, volume)
                             
         setData(filteredResponse)
     }
 
-    const onAdd = async (manga) => {
+    const onAdd = async (manga, mark_val) => {
+
+        // console.log(market_value)
 
         const authors = manga.authors;
         const series = query.series;
         const volume = query.volume;
-        const price = 10;
+        const market_value = mark_val.market_value === "" ? 10 : mark_val.market_value;
 
         const author_ids = await getOrAddAuthors(authors);
         const series_id = await getOrAddSeries(series, author_ids);
-        const manga_id = await getOrAddManga(manga, series_id, author_ids, volume, price);
+        const manga_id = await getOrAddManga(manga, series_id, author_ids, volume, market_value);
 
         return manga_id;
     }
@@ -102,9 +104,9 @@ const AddMultipleMangaPage = () => {
                     </FormControl>
                 </Grid>
                 <Grid xs={7} sx={{ mt: 3 }} textAlign={ "left" }>
-                        {data.map(item => (
-                            <IsbnDbItem key={item.isbn} item={item} onAdd={onAdd} />
-                        ))}
+                    {data.map(item => (
+                        <IsbnItem key={item.isbn} item={item} onAdd={onAdd} />
+                    ))}
                 </Grid>
             </Grid>
         </Box>

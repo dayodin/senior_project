@@ -11,6 +11,7 @@ import ISBNDB from "./routes/isbndb/isbndb.js"
 
 import { tokenInterval } from "./helpers/ebay_helpers/ebay_token_helpers.js";
 import { setUpDeals } from "./helpers/ebay_helpers/ebay_find_hits_helpers.js";
+import { updatePriceToMarketValue } from "./helpers/update_db_helpers/price_to_mv_update.js";
 
 const PORT = process.env.PORT || 5050;
 const app = express(); 
@@ -37,3 +38,4 @@ app.listen(PORT, () => {
 
 await tokenInterval();
 await setUpDeals();
+// await updatePriceToMarketValue();

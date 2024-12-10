@@ -1,22 +1,24 @@
 import EbayAuthToken from 'ebay-oauth-nodejs-client';
 import { setEbayToken, getTokenTimestamp, setTokenTimestamp } from '../../routes/ebay/ebay_token.js';
 
-// const TIMEOUT = 10 * 1000;
-const TIMEOUT = 2 * 60 * 60 * 1000;
+const TIMEOUT = 115 * 60 * 1000;
 
 export async function tokenInterval() {
     const token_ts_diff = await getTokenTSDiff();
-    
+
+    console.log(token_ts_diff / 1000);
+
     if (token_ts_diff > TIMEOUT) {
         await newEbayAuthToken();
-        setInterval(newEbayAuthToken, TIMEOUT)
+        setInterval(async () => await newEbayAuthToken(), TIMEOUT)
     } else {
-        setTimeout(tokenInterval, token_ts_diff);
+        setTimeout(tokenInterval, TIMEOUT - token_ts_diff); 
     }
 }
 
 // Generates a new access_token
 export async function newEbayAuthToken() {
+    console.log("hi")
 
     const ebayAuthToken = new EbayAuthToken({
         clientId: process.env.EBAY_CLIENTID,
@@ -36,6 +38,7 @@ export async function newEbayAuthToken() {
 export async function getTokenTSDiff() {
 
     let token_ts = await getTokenTimestamp();
+    
     let now = Date.now();
 
     return now - token_ts;

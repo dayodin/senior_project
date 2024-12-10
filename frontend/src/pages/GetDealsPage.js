@@ -5,12 +5,11 @@ import EbayHitItem from '../components/eBay/EbayHitItem';
 
 const GetDealsPage = () => {
     const [hits, setHits] = useState([])
+    const [hitDisplay, setHitDisplay] = useState([])
 
     const handleSubmit = async () => {
         
         const hits = await getEBayData();
-
-        console.log(hits)
 
         setHits(hits)
 
@@ -22,6 +21,11 @@ const GetDealsPage = () => {
         
         console.log(allResults)
     }
+
+    // useEffect(() => {
+    //     setHitDisplay(...hitDisplay, hit)
+    //     // fetchAll(setManga, setSeries, setAuthors);
+    // }, [hits]);
 
     return (
         <React.Fragment>

@@ -4,12 +4,17 @@ import { getData } from '../apiHelpers';
 export async function getEBayData () {
 
     let manga = await getData("manga");
+    let all_series = await getData("series")
 
     let hits = await Promise.all(manga.map(async (book) => {
         
         let volume = book.volume;
-        let price = book.price;
+        let market_value = book.market_value;
         let book_title = book.title;
+
+        let series = await getData(`series/${book.series_id}`)
+
+        // console.log(series)
 
         let author_names = book.authors.map((auth) => auth);
 
@@ -20,7 +25,7 @@ export async function getEBayData () {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify({
-                    book_title, volume, price
+                    book_title, volume, market_value
                 }),
             })
             
@@ -29,9 +34,9 @@ export async function getEBayData () {
             response.title = book_title
             response.authors = author_names
             response.volume = volume
-            response.price = price
+            response.market_value = market_value
             
-            let filtered = findDeals(response.itemSummaries, book_title, volume, price);
+            let filtered = findDeals(response.itemSummaries, book_title, volume, market_value, series.name);
 
             return filtered;
         } catch (error) {
@@ -44,7 +49,7 @@ export async function getEBayData () {
     return hits
 }
 
-export function findDeals(results, book_title, volume, price) {
+export function findDeals(results, book_title, volume, market_value, series) {
 
     if (results !== undefined){
 
@@ -62,26 +67,48 @@ export function findDeals(results, book_title, volume, price) {
             const total = (parseFloat(shipping) + parseFloat(hit.price.value)).toFixed(2)
 
             return {
-                // series: 
                 title: book_title,
                 volume: volume,
-                profit: (price - total).toFixed(2),
+                profit: (market_value - total).toFixed(2),
                 total: total,
                 price: hit.price.value,
                 shipping: shipping,   
                 url: hit.itemWebUrl,
                 item: hit,
-                market_value: price
+                market_value: market_value
             }
         })
         
-        results = results.filter(hit => hit.profit > 5 && 
-            !hit.item.title.toLowerCase().includes('in japanese') && 
-            hit.item.title.includes(volume) &&
-            hit.item.condition !== "Acceptable").sort(compareTotals)
+        results = results.filter(hit => 
+            hitsFilter(hit.profit, hit.item.title, book_title, volume, hit.item.condition, series)
+        ).sort(compareTotals)
     }
 
     if (results !== undefined && results[0] !== undefined) return results;
+}
+
+function hitsFilter (profit, hit_title, book_title, volume, condition, series) {
+    // console.log(hit_title)
+    // console.log(book_title)
+
+    if (
+        profit > 5 && 
+        !hit_title.toLowerCase().includes('in japanese') && 
+        !hit_title.toLowerCase().includes('japanese edition') && 
+        !hit_title.toLowerCase().includes("figure") &&
+        hit_title.toLowerCase().includes(series.toLowerCase()) &&
+        hit_title.includes(volume) &&
+        condition !== "Acceptable" &&
+        (
+            hit_title.includes(` ${volume} `)  || 
+            hit_title.includes(` ${volume}:`)  || 
+            hit_title.endsWith(` ${volume}`)   || 
+            hit_title.includes(` ${volume}-`)  || 
+            hit_title.includes(`-${volume}-`)  || 
+            hit_title.includes(`-${volume} `)  || 
+            hit_title.endsWith(`-${volume}`)   ||
+            hit_title.includes( `(${volume})`)
+    )) return true
 }
 
 function compareTotals(a, b) {

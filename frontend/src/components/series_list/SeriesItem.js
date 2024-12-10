@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Card, CardHeader, Modal } from '@mui/material';
+import { Grid, Box, Card, CardHeader, Modal } from '@mui/material';
 import { fetchData, deleteData } from "../../helpers/apiHelpers";
 import SeriesSubItem from "./SeriesSubItem";
 import UpdateDelete from "./settings/UpdateDelete";
@@ -29,7 +29,7 @@ const SeriesItem = (props) => {
     const onSubItemDelete = () => setRefresh(!refresh);
 
     useEffect(() => {
-        fetchData(`authors/${series.author_id}`, setAuthor)
+        fetchData(`authors/${series.author_ids}`, setAuthor)
         fetchData(`manga/series/${series._id}`, setSeriesItems)
     }, [series])
     
@@ -51,19 +51,19 @@ const SeriesItem = (props) => {
                     <UpdateSeriesForm series={series} setSeriesItem={setSeries} author={author} handleUpdate={handleOpen} />
                 </Box>
             </ Modal>
-            <Box sx={{ m: 1, maxWidth: 345 }}>
-                <Card variant="outlined">
+            <Grid sx={{ m: 1, maxWidth: 345 }}>
+                <Card elevation="8">
                     <CardHeader 
                         action={
                             <UpdateDelete onDelete={onClickDelete} onUpdate={handleOpen} />
                         }
                         title={series.name} 
-                        subheader={`By: ${author.first} ${author.last}`} />
-                    {seriesItems.map(item => (
+                        subheader={`By: ${author.name}`} />
+                    {seriesItems.sort((a, b) => a.volume - b.volume).map(item => (
                         <SeriesSubItem value={item} key={item._id} refresh={onSubItemDelete}/>
                     ))}
                 </Card>
-            </Box>
+            </Grid>
         </React.Fragment>
     )
 

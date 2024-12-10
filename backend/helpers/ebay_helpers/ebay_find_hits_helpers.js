@@ -2,12 +2,13 @@ import db from "../../db/mongo_config.js";
 import { ebayCall } from "./ebay_get_data_helpers.js";
 import { sendEmail } from "../../routes/email/email.js";
 
-const TIMEOUT = 10 * 1000;
-// const TIMEOUT = 2 * 60 * 60 * 1000;
+// const TIMEOUT = 60 * 1000;
+const EMAIL_TIMER = 15 * 60 * 1000
+// const EMAIL_TIMER = 4 * 60 * 1000
 
 export async function setUpDeals () {
     await deals();
-    // setInterval(deals, TIMEOUT)
+    setInterval(deals, EMAIL_TIMER)
 }
 
 async function deals () {
@@ -20,11 +21,7 @@ async function deals () {
 
     allResults.sort((a, b) => b.profit - a.profit)
 
-    console.log(allResults.length)
-
-    // let book = allResults[0];
-
-    // await sendEmail(book);
+    await sendEmail(allResults);
 }
 
 async function getEBayData () {
@@ -35,20 +32,13 @@ async function getEBayData () {
 
     let hits = await Promise.all(manga.map(async (book) => {
         let volume = book.volume;
-        let price = book.price;
+        let market_value = book.market_value;
         let book_title = book.title;
 
-        let author_names = book.authors.map((auth) => auth);
-
         try {
-            let response = await ebayCall(book_title, volume, price)
-
-            response.title = book_title
-            response.authors = author_names
-            response.volume = volume
-            response.price = price
+            let response = await ebayCall(book_title, volume, market_value)
             
-            let filtered = findDeals(response.itemSummaries, book_title, volume, price);
+            let filtered = findDeals(response.itemSummaries, book_title, volume, market_value);
 
             return filtered;
         } catch (error) {
@@ -61,7 +51,7 @@ async function getEBayData () {
     return hits
 }
 
-function findDeals(results, book_title, volume, price) {
+function findDeals(results, book_title, volume, market_value) {
 
     if (results !== undefined){
 
@@ -81,24 +71,40 @@ function findDeals(results, book_title, volume, price) {
             return {
                 title: book_title,
                 volume: volume,
-                profit: (price - total).toFixed(2),
+                profit: (market_value - total).toFixed(2),
                 total: total,
                 price: hit.price.value,
                 shipping: shipping,   
                 url: hit.itemWebUrl,
                 item: hit,
-                market_value: price
+                market_value: market_value
             }
         })
         
-        results = results.filter(hit => hit.profit > 5 && 
+        results = results.filter(hit => 
+            hit.profit > 5 && 
             !hit.item.title.toLowerCase().includes('in japanese') && 
+            !hit.item.title.toLowerCase().includes('japanese edition') && 
+            !hit.item.title.toLowerCase().includes("figure") &&
+            // hit.item.title.toLowerCase().includes(book_title.toLowerCase()) &&
             hit.item.title.includes(volume) &&
-            hit.item.condition !== "Acceptable").sort(compareTotals)
+            hit.item.condition !== "Acceptable" &&
+            (
+                hit.item.title.includes(` ${volume} `)  || 
+                hit.item.title.includes(` ${volume}:`)  || 
+                hit.item.title.endsWith(` ${volume}`)   || 
+                hit.item.title.includes(` ${volume}-`)  || 
+                hit.item.title.includes(`-${volume}-`)  || 
+                hit.item.title.includes(`-${volume} `)  || 
+                hit.item.title.endsWith(`-${volume}`)   ||
+                hit.item.title.includes( `(${volume})`)
+            )).sort(compareTotals)
     }
 
     if (results !== undefined && results[0] !== undefined) return results;
 }
+
+
 
 function compareTotals(a, b) {
     return a.total - b.total;

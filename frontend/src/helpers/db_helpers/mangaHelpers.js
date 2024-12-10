@@ -20,9 +20,9 @@ export async function mangaExists (manga) {
     return filteredMangaData[0] !== undefined ? filteredMangaData[0]._id : false; 
 }
 
-export async function getOrAddManga (manga, series_id, author_ids, volume, price) {
+export async function getOrAddManga (manga, series_id, author_ids, volume, market_value) {
     
-    let updated_manga = {...manga, series_id: series_id, author_ids: author_ids, volume: volume, price: price}
+    let updated_manga = {...manga, series_id: series_id, author_ids: author_ids, volume: volume, market_value: market_value}
 
     let manga_id = await mangaExists(updated_manga)
 

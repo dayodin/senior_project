@@ -33,7 +33,7 @@ router.get("/:id", async (req, res) => {
   const collection = db.collection("authors");
   let results = await collection.findOne(query);
 
-  console.log(results)
+  // console.log(results)
 
   res.send(results).status(200);
 });
