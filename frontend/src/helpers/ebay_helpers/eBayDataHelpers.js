@@ -1,52 +1,40 @@
 import { baseUrl } from '../../config';
 import { getData } from '../apiHelpers';
 
-export async function getEBayData () {
+export async function getEBayData (book) {
 
-    let manga = await getData("manga");
-    let all_series = await getData("series")
+    let volume = book.volume;
+    let market_value = book.market_value;
+    let book_title = book.title;
 
-    let hits = await Promise.all(manga.map(async (book) => {
+    let series = await getData(`series/${book.series_id}`)
+
+    let author_names = book.authors.map((auth) => auth);
+
+    try {
+        let response = await fetch(`${baseUrl}/getManga`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                book_title, volume, market_value
+            }),
+        })
         
-        let volume = book.volume;
-        let market_value = book.market_value;
-        let book_title = book.title;
+        response = await response.json();
 
-        let series = await getData(`series/${book.series_id}`)
+        response.title = book_title
+        response.authors = author_names
+        response.volume = volume
+        response.market_value = market_value
+        
+        let filtered = findDeals(response.itemSummaries, book_title, volume, market_value, series.name);
 
-        // console.log(series)
-
-        let author_names = book.authors.map((auth) => auth);
-
-        try {
-            let response = await fetch(`${baseUrl}/getManga`, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({
-                    book_title, volume, market_value
-                }),
-            })
-            
-            response = await response.json();
-
-            response.title = book_title
-            response.authors = author_names
-            response.volume = volume
-            response.market_value = market_value
-            
-            let filtered = findDeals(response.itemSummaries, book_title, volume, market_value, series.name);
-
-            return filtered;
-        } catch (error) {
-            console.log(error);
-        }
-    }))
-
-    hits = hits.filter(hit => hit !== undefined)
-
-    return hits
+        return filtered;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export function findDeals(results, book_title, volume, market_value, series) {
@@ -88,13 +76,13 @@ export function findDeals(results, book_title, volume, market_value, series) {
 }
 
 function hitsFilter (profit, hit_title, book_title, volume, condition, series) {
-    // console.log(hit_title)
-    // console.log(book_title)
 
     if (
         profit > 5 && 
         !hit_title.toLowerCase().includes('in japanese') && 
         !hit_title.toLowerCase().includes('japanese edition') && 
+        !hit_title.toLowerCase().includes('japanese version') && 
+        !hit_title.toLowerCase().includes('japanese language') && 
         !hit_title.toLowerCase().includes("figure") &&
         hit_title.toLowerCase().includes(series.toLowerCase()) &&
         hit_title.includes(volume) &&

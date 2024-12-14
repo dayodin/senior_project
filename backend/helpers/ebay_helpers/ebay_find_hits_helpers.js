@@ -1,4 +1,6 @@
 import db from "../../db/mongo_config.js";
+import { ObjectId } from "mongodb";
+
 import { ebayCall } from "./ebay_get_data_helpers.js";
 import { sendEmail } from "../../routes/email/email.js";
 
@@ -21,7 +23,7 @@ async function deals () {
 
     allResults.sort((a, b) => b.profit - a.profit)
 
-    await sendEmail(allResults);
+    // await sendEmail(allResults);
 }
 
 async function getEBayData () {
@@ -35,6 +37,15 @@ async function getEBayData () {
         let market_value = book.market_value;
         let book_title = book.title;
 
+
+        // var oid = new ObjectId(book.series_id)
+        // const query = { _id: oid };
+    
+        // const collection = db.collection("series");
+        // let series = await collection.findOne(query);
+
+        // console.log(series);
+
         try {
             let response = await ebayCall(book_title, volume, market_value)
             
@@ -42,7 +53,7 @@ async function getEBayData () {
 
             return filtered;
         } catch (error) {
-            console.log(error);
+            console.log(error.response.data);
         }
     }))
 
@@ -51,7 +62,7 @@ async function getEBayData () {
     return hits
 }
 
-function findDeals(results, book_title, volume, market_value) {
+function findDeals(results, book_title, volume, market_value, series) {
 
     if (results !== undefined){
 
@@ -85,8 +96,10 @@ function findDeals(results, book_title, volume, market_value) {
             hit.profit > 5 && 
             !hit.item.title.toLowerCase().includes('in japanese') && 
             !hit.item.title.toLowerCase().includes('japanese edition') && 
+            !hit.item.title.toLowerCase().includes('japanese language') && 
+            !hit.item.title.toLowerCase().includes('japanese version') && 
             !hit.item.title.toLowerCase().includes("figure") &&
-            // hit.item.title.toLowerCase().includes(book_title.toLowerCase()) &&
+            // hit.item.title.includes(series.name.toLowerCase()) &&
             hit.item.title.includes(volume) &&
             hit.item.condition !== "Acceptable" &&
             (
@@ -103,8 +116,6 @@ function findDeals(results, book_title, volume, market_value) {
 
     if (results !== undefined && results[0] !== undefined) return results;
 }
-
-
 
 function compareTotals(a, b) {
     return a.total - b.total;
