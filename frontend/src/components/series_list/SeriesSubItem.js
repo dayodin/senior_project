@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Card, CardHeader, Modal } from '@mui/material';
+import { Box, Card, CardHeader, Modal, CardMedia } from '@mui/material';
 import { deleteData } from "../../helpers/apiHelpers";
 import UpdateMangaForm from "./updates/UpdateMangaForm";
 import UpdateDelete from "./settings/UpdateDelete";
@@ -39,14 +39,22 @@ const SeriesSubItem = (props) => {
                     <UpdateMangaForm manga={manga} setMangaItem={setManga} handleUpdate={handleOpen} />
                 </Box>
             </ Modal>
-            <Box sx={{ m: 1, minWidth: 250 }}>  
-                <Card variant="outlined">
-                    <CardHeader 
-                        action={
-                            <UpdateDelete onDelete={onClickDelete} onUpdate={handleOpen} />
-                        }
-                        title={`Vol. ${manga.volume}`} 
-                        subheader={`Price: ${manga.price}`} />
+            <Box sx={{ m: 1, minWidth: 250,  }}>  
+                <Card variant="outlined" sx={{ m: 1, display: 'flex' }}>
+                    <CardMedia
+                        component="img"
+                        sx={{ width: 150 }}
+                        image={manga.image}
+                        alt="cover"
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column', width: "100%" }}>
+                        <CardHeader 
+                            action={
+                                <UpdateDelete onDelete={onClickDelete} onUpdate={handleOpen} />
+                            }
+                            title={`Vol. ${manga.volume}`} 
+                            subheader={`Market value: ${manga.market_value}`} />
+                    </Box>
                 </Card>
             </Box>
         </React.Fragment>

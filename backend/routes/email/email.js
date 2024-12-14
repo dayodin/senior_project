@@ -1,6 +1,10 @@
 import axios from "axios";
+import { createEmailMessage } from "../../helpers/email_helpers/email_helpers.js";
 
-export async function sendEmail (template_params) {
+export async function sendEmail (book) {
+
+    const template_params = createEmailMessage(book);
+
     await axios.post('https://api.emailjs.com/api/v1.0/email/send', 
         {
             service_id: 'service_xgxsdjs',

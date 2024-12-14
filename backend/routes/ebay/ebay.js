@@ -1,7 +1,7 @@
 import express from "express";
 import axios from "axios";
-import { createSearchQuery } from "../../helpers/getMangaHelpers.js";
-import { getEbayToken } from "../../helpers/eBayTokenHelpers.js";
+import { createSearchQuery } from "../../helpers/ebay_helpers/ebay_get_data_helpers.js";
+import { getEbayToken } from "./ebay_token.js";
 
 const router = express.Router();
 
@@ -12,9 +12,9 @@ router.post("/", async (req, res) => {
   const book_title = req.body.book_title;
   const volume = req.body.volume;
   const authors = req.body.authors;
-  const price = req.body.price;
+  const market_value = req.body.market_value;
 
-  const search_query = createSearchQuery(book_title, volume, price, authors)
+  const search_query = createSearchQuery(book_title, volume, market_value, authors)
   
   axios({
     method: 'get',

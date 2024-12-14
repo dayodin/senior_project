@@ -1,16 +1,13 @@
-import { getEbayToken } from "./eBayTokenHelpers.js";
+import { getEbayToken } from "../../routes/ebay/ebay_token.js";
 import axios from "axios";
 
-export async function ebayCall (book_title, volume, price) {
+export async function ebayCall (book_title, volume, market_value) {
 
     let tkn = await getEbayToken()
 
-    // const book_title = book_title;
-    // const volume = volume;
     const authors = undefined;
-    // const price = price;
 
-    const search_query = createSearchQuery(book_title, volume, price, authors)
+    const search_query = createSearchQuery(book_title, volume, market_value, authors)
     
     let response = await axios({
         method: 'get',
@@ -23,16 +20,15 @@ export async function ebayCall (book_title, volume, price) {
     return response.data
 }
 
+export function createSearchQuery(book_title, volume, market_value, authorsArr) {
 
-export function createSearchQuery(book_title, volume, volume_price, authorsArr) {
-    // const title = series_name;
     const vol = " vol " + volume;
     const authors = ""; 
-    const price = "&filter=price:[0.. " + volume_price + "],priceCurrency:USD"
+    const mv_price = "&filter=price:[0.. " + market_value + "],priceCurrency:USD"
     const categoryId = "&aspect_filter=categoryId:[259109|267|63|33346|261186]&filter=excludeCategoryIds:{183454|2536|617|11232|1105|184644|176984|11233}"
     const location = "&filter=itemLocationCountry:US"
 
-    const search_query = "search?q=" + book_title + vol + " " + authors + price + "&limit=25" + categoryId + location;
+    const search_query = "search?q=" + book_title + vol + " " + authors + mv_price + "&limit=50" + categoryId + location;
 
     return search_query;
 }

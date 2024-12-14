@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { fetchData } from '../helpers/apiHelpers';
+import { fetchData } from '../helpers/apiHelpers.js';
 import SeriesList from '../components/series_list/SeriesList.js';
 import { MangaPageContext } from '../context/MangaPageContex.js';
-import MangaList from '../components/manga_list/MangaList.js';
 
 const MangaPage = () => {
     const [manga, setManga] = useState([]);
@@ -23,7 +22,6 @@ const MangaPage = () => {
                                            authors: authors, setAuthor: setAuthors,
                                            fetchAgain: fetchAgain}} >
             <SeriesList />
-            {/* <MangaList manga={manga} series={series} authors={authors} fetchAgain={fetchAgain} /> */}
         </ MangaPageContext.Provider>
     );
 };

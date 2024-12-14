@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../../db/mongoConfig.js";
+import db from "../../db/mongo_config.js";
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
@@ -33,7 +33,7 @@ router.get("/:id", async (req, res) => {
   const collection = db.collection("authors");
   let results = await collection.findOne(query);
 
-  console.log(results)
+  // console.log(results)
 
   res.send(results).status(200);
 });

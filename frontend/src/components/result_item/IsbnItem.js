@@ -1,17 +1,22 @@
-import React from "react";
-import { useTheme } from '@mui/material/styles';
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Button, CardActions } from "@mui/material";
+import { Button, CardActions, FormControl, TextField } from "@mui/material";
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const IsbnDbItem = (props) => {
-    // const theme = useTheme();
+const IsbnItem = (props) => {
+
+    const [market_value, setMarketValue] = useState("")
+
+    const handleChange = (e) => {
+        setMarketValue(prev=>({...prev, [e.target.name]: e.target.value}));
+    };
 
     const onClickAdd = () => {
-        props.onAdd(props.item);
+        // console.log(market_value)
+        props.onAdd(props.item, market_value);
     }
 
     return (
@@ -37,7 +42,17 @@ const IsbnDbItem = (props) => {
                         {props.item.date_published}
                     </Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions disableSpacing>
+                    <FormControl>
+                        <TextField 
+                            sx={{ m: 1, minWidth: 240 }} 
+                            label="Market Value" 
+                            name='market_value' 
+                            defaultValue={market_value}
+                            onChange={handleChange} 
+                            required="True"
+                        />
+                    </FormControl>
                     <Button sx={{ m: 1, minWidth: 60, marginLeft: 'auto' }} variant='contained' onClick={onClickAdd}>Add</Button>
                 </CardActions>
             </Box>
@@ -45,4 +60,4 @@ const IsbnDbItem = (props) => {
     )
 }
 
-export default IsbnDbItem;
+export default IsbnItem;
